@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Auth.LoginActivity">
+    tools:context=".Auth.LogActivity">
 
 
     <LinearLayout
@@ -19,6 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:textColor="@color/white"
             android:textSize="40sp"
             android:text="Login" />
 
@@ -26,6 +26,8 @@
             android:id="@+id/login_user_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
             android:hint="email" />
 
 
@@ -33,6 +35,8 @@
             android:id="@+id/login_user_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
             android:hint="password" />
 
         <Button
@@ -40,13 +44,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10sp"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
             android:text="login" />
 
         <TextView
             android:id="@+id/sign_up_btn"
             android:layout_width="wrap_content"
+            android:layout_margin="10sp"
             android:layout_height="wrap_content"
+            android:textColorHint="@color/white"
             android:text="Sign Up"/>
 
     </LinearLayout>

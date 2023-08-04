@@ -1,21 +1,20 @@
-package com.laperapp.laper.auth
+package com.lapperapp.laper.Auth
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.laperapp.laper.Data.LoginModel
 import com.laperapp.laper.api.ResponseBody
 import com.lapperapp.laper.MainActivity
 import com.lapperapp.laper.R
 
-class LoginActivity : AppCompatActivity() {
-
+class LogActivity : AppCompatActivity() {
     private lateinit var email: EditText
     private lateinit var password: EditText
     private lateinit var submitBtn: Button
@@ -52,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         siginup.setOnClickListener {
-            val intent = Intent(baseContext, RegisterActivity::class.java)
+            val intent = Intent(baseContext, RegActivity::class.java)
             startActivity(intent)
         }
 

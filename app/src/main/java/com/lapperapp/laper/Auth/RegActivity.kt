@@ -1,20 +1,19 @@
-package com.laperapp.laper.auth
+package com.lapperapp.laper.Auth
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.laperapp.laper.Data.SignUpModel
 import com.laperapp.laper.api.ResponseBody
 import com.lapperapp.laper.MainActivity
 import com.lapperapp.laper.R
 
-class RegisterActivity : AppCompatActivity() {
+class RegActivity : AppCompatActivity() {
     private lateinit var textView: TextView
     private lateinit var login: TextView
     private lateinit var email: EditText
@@ -23,7 +22,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var submitBtn: Button
     private lateinit var sharedPreferences: SharedPreferences
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -54,7 +52,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         login.setOnClickListener {
-            val intent = Intent(baseContext, LoginActivity::class.java)
+            val intent = Intent(baseContext, LogActivity::class.java)
             startActivity(intent)
         }
 
