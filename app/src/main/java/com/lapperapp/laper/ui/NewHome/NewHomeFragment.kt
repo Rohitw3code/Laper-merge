@@ -3,8 +3,8 @@ package com.lapperapp.laper.ui.NewHome
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.icu.text.CaseMap.Title
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,33 +16,22 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.RemoteMessage
+import com.laperapp.laper.Data.UserModel
+import com.laperapp.laper.api.ResponseBodyApi
 import com.lapperapp.laper.BuildConfig
 import com.lapperapp.laper.Categories.*
-import com.lapperapp.laper.ChatGPT.ChatGPTActivity
-import com.lapperapp.laper.ImageViewActivity
+import com.lapperapp.laper.Data.UserUpdateModel
 import com.lapperapp.laper.R
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
-import kotlin.collections.ArrayList
 
 class NewHomeFragment : Fragment() {
-
-    var db = Firebase.firestore
-    private lateinit var firebaseAuth: FirebaseAuth
-    var userRef = db.collection("users")
-    var techRef = db.collection("tech")
+    var data = ArrayList<CategoryModel>()
     val database = Firebase.database
     val tokenRef = database.getReference("token")
-    var data = ArrayList<CategoryModel>()
-
-    //    private lateinit var imageSlider: ImageSlider
-    private lateinit var userImage2: CircleImageView
     private lateinit var developersCard: CardView
     private lateinit var cameraCard: CardView
     private lateinit var typeCard: CardView
@@ -56,8 +45,6 @@ class NewHomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.new_home_fragment, container, false)
-
-        firebaseAuth = FirebaseAuth.getInstance()
 
         developersCard = view.findViewById(R.id.home_developers)
         cameraCard = view.findViewById(R.id.home_take_photo)
@@ -98,7 +85,7 @@ class NewHomeFragment : Fragment() {
 
         typeCard.setOnClickListener { v ->
             val explore = Intent(context, TypeQuestActivity::class.java)
-            explore.putExtra("image_uri","");
+            explore.putExtra("image_uri", "");
             startActivity(explore)
         }
 
@@ -116,14 +103,17 @@ class NewHomeFragment : Fragment() {
 
 
     private fun getUserData() {
-        userRef.document(firebaseAuth.uid.toString()).get().addOnSuccessListener { documents ->
-            if (documents != null) {
-                val uName = documents.get("username").toString()
-                title.setText("Hello "+uName)
+        ResponseBodyApi.getUserResponseBody(requireContext(),
+            onResponse = { json ->
+                if (json != null) {
+                    val user: UserModel = json.user
+                    title.text = "Hello "+user.name
+                }
+            },
+            onFailure = { t ->
+                Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
             }
-        }.addOnFailureListener { exception ->
-
-        }
+        )
     }
 
     @Deprecated("Deprecated in Java")
@@ -142,7 +132,9 @@ class NewHomeFragment : Fragment() {
             val tokenhash = hashMapOf(
                 "token" to s
             )
-            tokenRef.child(firebaseAuth.uid.toString()).setValue(tokenhash)
+
+
+//            tokenRef.child(firebaseAuth.uid.toString()).setValue(tokenhash)
 
             val hashMap = hashMapOf(
                 "lastActive" to System.currentTimeMillis(),
@@ -150,38 +142,20 @@ class NewHomeFragment : Fragment() {
                 "versionName" to BuildConfig.VERSION_NAME,
                 "versionCode" to BuildConfig.VERSION_CODE
             )
-            userRef.document(firebaseAuth.uid.toString())
-                .update(hashMap as Map<String, Any>)
-                .addOnSuccessListener {
-                }
-                .addOnFailureListener { exc ->
-                    run {
+            for ((key, value) in hashMap) {
+                val userUpdateModel = UserUpdateModel(key,value.toString())
+                ResponseBodyApi.updateUser(requireContext(),userUpdateModel, onResponse = { res->
+                    if (res!=null){
+                        Log.d("res",res.user.toString())
                     }
-                }
-        }
-
-    }
-
-
-    @SuppressLint("SetTextI18n")
-    fun fetchUserDetail() {
-        userRef.document(firebaseAuth.uid as String).get().addOnSuccessListener { documents ->
-            if (documents.exists()) {
-                val uImageUrl = documents.get("userImageUrl").toString()
-                try {
-                    Glide.with(this).load(uImageUrl).into(userImage2)
-                } finally {
-
-                }
-            }
-        }.addOnFailureListener { exception ->
-            run {
-                Toast.makeText(context, exception.message, Toast.LENGTH_SHORT)
-                    .show()
+                }, onFailure = {t->
+                    t.printStackTrace()
+                })
             }
         }
 
     }
+
 
 
 }

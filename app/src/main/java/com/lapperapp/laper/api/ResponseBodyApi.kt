@@ -2,15 +2,19 @@ package com.laperapp.laper
 .api
 
 import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import com.laperapp.laper.Data.LoginModel
 import com.laperapp.laper.Data.LoginResponse
 import com.laperapp.laper.Data.SignUpModel
 import com.laperapp.laper.Data.UserBase
+import com.laperapp.laper.api.RetrofitClient
+import com.lapperapp.laper.Data.UserUpdateModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-object ResponseBody {
+object ResponseBodyApi {
 //    fun getUser(context:Context): Call<UserFetch> {
 //        val token = RetrofitClient.getCredential("token",context)
 //        val jsonapi = RetrofitClient.getClient()
@@ -63,6 +67,25 @@ object ResponseBody {
                 }
             }
 
+            override fun onFailure(call: Call<UserBase>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
+
+
+    fun updateUser(context: Context,updateModel: UserUpdateModel, onResponse: (UserBase?) -> Unit, onFailure: (Throwable) -> Unit){
+        val token = RetrofitClient.getCredential("token",context)
+        val jsonapi = RetrofitClient.getClient()
+        jsonapi.updateUser(token,updateModel).enqueue(object : Callback<UserBase> {
+            override fun onResponse(call: Call<UserBase>, response: Response<UserBase>) {
+                if (response.isSuccessful) {
+                    val userFetch: UserBase? = response.body()
+                    onResponse(userFetch)
+                } else {
+                    val errorMessage = "Response unsuccessful: ${response.code()}"
+                    onFailure(Throwable(errorMessage))                }
+            }
             override fun onFailure(call: Call<UserBase>, t: Throwable) {
                 onFailure(t)
             }

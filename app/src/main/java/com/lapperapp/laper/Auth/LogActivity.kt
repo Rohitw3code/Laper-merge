@@ -10,7 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.laperapp.laper.Data.LoginModel
-import com.laperapp.laper.api.ResponseBody
+import com.laperapp.laper.api.ResponseBodyApi
 import com.lapperapp.laper.MainActivity
 import com.lapperapp.laper.R
 
@@ -33,9 +33,8 @@ class LogActivity : AppCompatActivity() {
 
 
         submitBtn.setOnClickListener {
-
             val user = LoginModel(email.text.toString().trim(), password.text.toString().trim())
-            ResponseBody.logInResponseBody(user, onResponse = { token ->
+            ResponseBodyApi.logInResponseBody(user, onResponse = { token ->
                 if (token != null) {
                     val editor: SharedPreferences.Editor = sharedPreferences.edit()
                     editor.putString("token", token)
@@ -47,7 +46,6 @@ class LogActivity : AppCompatActivity() {
             }, onFailure = { t ->
                 Toast.makeText(baseContext, t.message, Toast.LENGTH_SHORT).show()
             })
-
         }
 
         siginup.setOnClickListener {

@@ -2,14 +2,14 @@ package com.lapperapp.laper.Auth
 
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.laperapp.laper.Data.SignUpModel
-import com.laperapp.laper.api.ResponseBody
+import com.laperapp.laper.api.ResponseBodyApi
 import com.lapperapp.laper.MainActivity
 import com.lapperapp.laper.R
 
@@ -41,7 +41,7 @@ class RegActivity : AppCompatActivity() {
             val userName = name.text.toString().trim()
             val user = SignUpModel(userEmail, userName, userName, userPassword)
 
-            ResponseBody.signUpResponseBody(user, onResponse = { msg ->
+            ResponseBodyApi.signUpResponseBody(user, onResponse = { msg ->
                 if (msg != null) {
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                 }
