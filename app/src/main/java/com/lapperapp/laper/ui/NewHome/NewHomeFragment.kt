@@ -132,10 +132,7 @@ class NewHomeFragment : Fragment() {
             val tokenhash = hashMapOf(
                 "token" to s
             )
-
-
 //            tokenRef.child(firebaseAuth.uid.toString()).setValue(tokenhash)
-
             val hashMap = hashMapOf(
                 "lastActive" to System.currentTimeMillis(),
                 "token" to s,

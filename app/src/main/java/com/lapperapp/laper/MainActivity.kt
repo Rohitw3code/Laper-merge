@@ -27,6 +27,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.laperapp.laper.api.ResponseBodyApi
 import com.lapperapp.laper.Auth.AuthActivity
 import com.lapperapp.laper.Notification.NotificationActivity
 import com.lapperapp.laper.databinding.ActivityMainBinding
@@ -262,23 +263,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun fetchUserDetail() {
-        userRef.document(firebaseAuth.uid as String).get().addOnSuccessListener { documents ->
-            if (documents.exists()) {
-                val uImageUrl = documents.get("userImageUrl").toString()
-                val uUserName = documents.get("username").toString()
-                val uEmail = documents.get("email").toString()
-                headerUserName.text = uUserName
-                headerUserEmail.text = uEmail
-                Glide.with(this).load(uImageUrl).into(headerUserImage)
-                Glide.with(this).load(uImageUrl).into(userImage1)
+        ResponseBodyApi.getUserResponseBody(baseContext, onResponse = {res->
+            if(res!=null){
+                val user = res.user
+                headerUserName.text = user.name
+                headerUserEmail.text = user.email
+                if (user.userImageUrl.isNotBlank()){
+                    Glide.with(this).load(user.userImageUrl).into(headerUserImage)
+                    Glide.with(this).load(user.userImageUrl).into(userImage1)
+                }
             }
-        }.addOnFailureListener { exception ->
-            run {
-                Toast.makeText(baseContext, exception.message, Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
-
+        }, onFailure = {t->
+            t.printStackTrace()
+        })
     }
 
     fun setFrameLayout(fragment: Fragment?) {

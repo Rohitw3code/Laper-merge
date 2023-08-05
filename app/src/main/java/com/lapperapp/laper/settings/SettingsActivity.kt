@@ -2,12 +2,15 @@ package com.lapperapp.laper.settings
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.laperapp.laper.api.ResponseBodyApi
+import com.lapperapp.laper.Data.UserUpdateModel
 import com.lapperapp.laper.R
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -38,22 +41,28 @@ class SettingsActivity : AppCompatActivity() {
         updateBtn.setOnClickListener {
             pushData()
         }
+
         fetchData()
+
+
     }
 
     private fun fetchData() {
-        userRef.document(auth.uid.toString())
-            .get().addOnSuccessListener { doc ->
-                val name = doc.getString("username") as String
-                val pn = doc.getString("phoneNumber") as String
-                val _email = doc.getString("email") as String
-                val imageUrl = doc.getString("userImageUrl") as String
-                username.setText(name)
-                email.text = _email
-                phoneNumber.setText(pn)
+        ResponseBodyApi.getUserResponseBody(baseContext, onResponse = {res->
+            if(res!=null){
+                val user = res.user
+                username.setText(user.name)
+                email.text = user.email
+                phoneNumber.setText(user.phoneNumber)
                 userId.text = auth.uid.toString()
-                Glide.with(baseContext).load(imageUrl).into(userImage)
+                if (user.userImageUrl.isNotBlank()){
+                    Glide.with(baseContext).load(user.userImageUrl).into(userImage)
+                }
             }
+        }, onFailure = {f->
+            f.printStackTrace()
+        })
+
     }
 
     private fun pushData() {
@@ -61,8 +70,17 @@ class SettingsActivity : AppCompatActivity() {
             "username" to username.text.trim().toString(),
             "phoneNumber" to phoneNumber.text.trim().toString()
         )
-        userRef.document(auth.uid.toString())
-            .update(hash as Map<String, Any>)
+
+        for((key,value) in hash){
+            val model = UserUpdateModel(key,value)
+            ResponseBodyApi.updateUser(baseContext,model, onResponse = {res->
+                if(res!=null){
+                    Log.d("success",res.toString())
+                }
+            }, onFailure = {f->
+                f.printStackTrace()
+            })
+        }
         Toast.makeText(baseContext, "updated!", Toast.LENGTH_SHORT).show()
     }
 
