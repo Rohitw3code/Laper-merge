@@ -6,28 +6,30 @@ import com.laperapp.laper.Data.SignUpModel
 import com.laperapp.laper.Data.UserBase
 import com.lapperapp.laper.Data.UserUpdateModel
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.PUT
+import retrofit2.http.*
 import kotlin.collections.HashMap as HashMap1
 
 interface ApiInterface {
 
-    @POST("user-fetch")
+    @POST("api/user-fetch")
     fun getUserData(
         @Header("x-access-token") token:String,
     ): Call<UserBase>
 
-    @POST("signup")
+    @POST("api/signup")
     fun signUp(@Body signUpRequest: SignUpModel): Call<SignUpModel>
 
-    @POST("login")
+    @POST("api/login")
     fun logIn(@Body loginRequest: LoginModel): Call<LoginResponse>
 
-    @PUT("user-update")
+
+    @PUT("api/user-update")
     fun updateUser(@Header("x-access-token") token:String,
                    @Body userUpdateModel: UserUpdateModel
     ):Call<UserBase>
+
+    @GET("auth/google")
+    fun authGoogle(): Call<LoginResponse>
+
 
 }
