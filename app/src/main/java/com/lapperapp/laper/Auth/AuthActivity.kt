@@ -42,9 +42,6 @@ class AuthActivity : AppCompatActivity() {
             .requestEmail()
             .build()
 
-        val signInClient = GoogleSignIn.getClient(this, gso)
-
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         firebaseAuth = FirebaseAuth.getInstance()
 
@@ -100,6 +97,8 @@ class AuthActivity : AppCompatActivity() {
 
     private fun createNewUser(account: GoogleSignInAccount) {
         val authId = FirebaseAuth.getInstance().uid.toString()
+
+
 
         adminRef.document("constants")
             .get().addOnSuccessListener { doc ->

@@ -105,8 +105,8 @@ class NewHomeFragment : Fragment() {
     private fun getUserData() {
         ResponseBodyApi.getUserResponseBody(requireContext(),
             onResponse = { json ->
-                if (json != null) {
-                    val user: UserModel = json.user
+                val user = json?.user
+                if (user != null) {
                     title.text = "Hello "+user.name
                 }
             },
@@ -142,7 +142,8 @@ class NewHomeFragment : Fragment() {
             for ((key, value) in hashMap) {
                 val userUpdateModel = UserUpdateModel(key,value.toString())
                 ResponseBodyApi.updateUser(requireContext(),userUpdateModel, onResponse = { res->
-                    if (res!=null){
+                    val user = res?.user
+                    if (user!=null){
                         Log.d("res",res.user.toString())
                     }
                 }, onFailure = {t->

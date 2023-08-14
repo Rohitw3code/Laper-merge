@@ -264,8 +264,8 @@ class MainActivity : AppCompatActivity() {
 
     fun fetchUserDetail() {
         ResponseBodyApi.getUserResponseBody(baseContext, onResponse = {res->
-            if(res!=null){
-                val user = res.user
+            val user = res?.user
+            if (user != null) {
                 headerUserName.text = user.name
                 headerUserEmail.text = user.email
                 if (user.userImageUrl.isNotBlank()){

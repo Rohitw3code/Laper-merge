@@ -18,15 +18,15 @@
         <activity
             android:name=".Auth.GoogleAuthActivity"
             android:exported="true" >
+        </activity>
+        <activity
+            android:name=".Auth.RegActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".Auth.RegActivity"
-            android:exported="true">
         </activity>
         <activity
             android:name=".Auth.LogActivity"
@@ -177,7 +177,8 @@
             android:exported="false" />
         <activity
             android:name=".Auth.AuthActivity"
-            android:exported="true"></activity>
+            android:exported="true">
+        </activity>
 
         <service
             android:name=".service.MyFireBaseInstanceIDService"
