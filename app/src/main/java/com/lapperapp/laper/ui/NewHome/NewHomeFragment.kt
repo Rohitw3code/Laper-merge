@@ -13,19 +13,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.laperapp.laper.Data.UserModel
-import com.laperapp.laper.api.ResponseBodyApi
+import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.BuildConfig
 import com.lapperapp.laper.Categories.*
 import com.lapperapp.laper.Data.UserUpdateModel
 import com.lapperapp.laper.R
-import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 
 class NewHomeFragment : Fragment() {

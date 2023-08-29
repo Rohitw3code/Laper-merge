@@ -27,7 +27,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.laperapp.laper.api.ResponseBodyApi
+import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.Auth.AuthActivity
 import com.lapperapp.laper.Notification.NotificationActivity
 import com.lapperapp.laper.databinding.ActivityMainBinding

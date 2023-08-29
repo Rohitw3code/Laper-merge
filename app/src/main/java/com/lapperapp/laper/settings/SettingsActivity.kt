@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.laperapp.laper.api.ResponseBodyApi
+import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.Data.UserUpdateModel
 import com.lapperapp.laper.R
 import de.hdodenhof.circleimageview.CircleImageView

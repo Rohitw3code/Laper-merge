@@ -10,7 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.laperapp.laper.Data.LoginModel
-import com.laperapp.laper.api.ResponseBodyApi
+import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.MainActivity
 import com.lapperapp.laper.R
 

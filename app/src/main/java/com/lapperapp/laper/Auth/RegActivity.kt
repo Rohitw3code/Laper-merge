@@ -9,7 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.laperapp.laper.Data.SignUpModel
-import com.laperapp.laper.api.ResponseBodyApi
+import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.MainActivity
 import com.lapperapp.laper.R
 
