@@ -8,23 +8,22 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.laperapp.laper.ResponseBodyApi
+import com.lapperapp.laper.Data.ExpertFilterModel
 import com.lapperapp.laper.R
 import com.lapperapp.laper.utils.TimeAgo
 import java.util.*
 
 class PersonalFragment(private var userId: String) : Fragment() {
-    private val db = Firebase.firestore
-    private var docsref = db.collection("experts")
-    private var techRef = db.collection("tech")
     lateinit var userEmail: TextView
     lateinit var userPhone: TextView
     lateinit var userAbout: TextView
     lateinit var userCountry: TextView
     lateinit var lastActive: TextView
     lateinit var gender:TextView
-    lateinit var userType: String
 
 
     @SuppressLint("NotifyDataSetChanged", "MissingInflatedId")
@@ -47,35 +46,25 @@ class PersonalFragment(private var userId: String) : Fragment() {
         return view
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun getUserData() {
-        docsref.document(userId).get().addOnSuccessListener { documents ->
-            val uEmail = documents.get("email").toString()
-            val uPhone = documents.get("phoneNumber").toString()
-            val desc = documents.get("desc").toString()
-            val country = documents.get("country").toString()
-            userType = documents.get("userType").toString()
-            val la = documents.get("lastActive") as Long
-            if (documents.contains("gender")){
-                val gend = documents.get("gender").toString()
-                gender.text = gend
+        val model = ExpertFilterModel("email",userId,"name",1,1)
+        ResponseBodyApi.getExpertResponseBody(requireContext(),model,
+            onResponse = { json ->
+                val expert = json?.expert
+                if (expert != null) {
+                    userEmail.text = expert[0].email
+                    userPhone.text = expert[0].phoneNumber
+                    userAbout.text = expert[0].desc
+
+                    val timeAgo = TimeAgo()
+                    val currentDate = timeAgo.getTimeAgo(Date(expert[0].lastActive.toLong()), requireContext())
+                    lastActive.text = currentDate
+                }
+            },
+            onFailure = { t ->
+                Toast.makeText(requireContext(), t.message, Toast.LENGTH_SHORT).show()
             }
-
-            val timeAgo = TimeAgo()
-            val currentDate = timeAgo.getTimeAgo(Date(la), context)
-
-            lastActive.text = currentDate
-            userEmail.text = uEmail
-            userPhone.text = uPhone
-            userAbout.text = desc
-            userCountry.text = country
-
-        }.addOnFailureListener { exception ->
-            run {
-                Toast.makeText(context, exception.message, Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
+        )
     }
 
 

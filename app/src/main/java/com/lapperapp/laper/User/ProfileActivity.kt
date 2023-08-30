@@ -11,11 +11,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.bumptech.glide.Glide
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.Data.ExpertFilterModel
 import com.lapperapp.laper.R
+import com.lapperapp.laper.TimeAgo
 import com.lapperapp.laper.User.Personal.PersonalFragment
 import com.lapperapp.laper.ui.chats.Chat.ChatActivity
 import de.hdodenhof.circleimageview.CircleImageView
@@ -23,9 +25,6 @@ import nl.joery.animatedbottombar.AnimatedBottomBar
 import java.util.*
 
 class ProfileActivity : AppCompatActivity() {
-    val db = Firebase.firestore
-    var expertRef = db.collection("experts")
-
     lateinit var userImage: CircleImageView
     lateinit var userName: TextView
     lateinit var chatSection: ImageView
@@ -93,14 +92,17 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun getExpertData() {
 
-        Toast.makeText(baseContext,"> "+userId,Toast.LENGTH_SHORT).show()
-
         val model = ExpertFilterModel("email",userId,"name",1,1)
         ResponseBodyApi.getExpertResponseBody(baseContext,model,
             onResponse = { json ->
                 val expert = json?.expert
                 if (expert != null) {
                     userName.text = expert[0].name
+                    Glide.with(baseContext).load(expert[0].userImageUrl).into(userImage)
+                    title.text = expert[0].desc
+                    val timeAgo = TimeAgo()
+                    val currentDate = timeAgo.getTimeAgo(Date(expert[0].lastActive.toLong()), baseContext)
+                    lastActive.text = currentDate
                 }
             },
             onFailure = { t ->
