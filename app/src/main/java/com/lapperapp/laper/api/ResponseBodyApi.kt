@@ -1,13 +1,12 @@
 package com.laperapp.laper
 
 import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import com.laperapp.laper.Data.LoginModel
 import com.laperapp.laper.Data.LoginResponse
 import com.laperapp.laper.Data.SignUpModel
 import com.laperapp.laper.Data.UserBase
 import com.laperapp.laper.api.RetrofitClient
+import com.lapperapp.laper.Data.ExpertFilterModel
 import com.lapperapp.laper.Data.ExpertBase
 import com.lapperapp.laper.Data.UserUpdateModel
 import retrofit2.Call
@@ -85,6 +84,26 @@ object ResponseBodyApi {
             }
         })
     }
+
+    fun getExpertResponseBody(context: Context, model:ExpertFilterModel, onResponse: (ExpertBase?) -> Unit, onFailure: (Throwable) -> Unit) {
+        val token = RetrofitClient.getCredential("token",context)
+        val jsonapi = RetrofitClient.getClient()
+        jsonapi.getExpertData(token,model).enqueue(object : Callback<ExpertBase> {
+            override fun onResponse(call: Call<ExpertBase>, response: Response<ExpertBase>) {
+                if (response.isSuccessful) {
+                    val expertFetch: ExpertBase? = response.body()
+                    onResponse(expertFetch)
+                } else {
+                    onFailure(Throwable("Response unsuccessful"))
+                }
+            }
+
+            override fun onFailure(call: Call<ExpertBase>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
+
 
 
     fun updateUser(context: Context,updateModel: UserUpdateModel, onResponse: (UserBase?) -> Unit, onFailure: (Throwable) -> Unit){

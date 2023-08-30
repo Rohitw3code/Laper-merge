@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,14 +11,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.bumptech.glide.Glide
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.lapperapp.laper.ImageViewActivity
+import com.laperapp.laper.ResponseBodyApi
+import com.lapperapp.laper.Data.ExpertFilterModel
 import com.lapperapp.laper.R
 import com.lapperapp.laper.User.Personal.PersonalFragment
 import com.lapperapp.laper.ui.chats.Chat.ChatActivity
-import com.lapperapp.laper.utils.TimeAgo
 import de.hdodenhof.circleimageview.CircleImageView
 import nl.joery.animatedbottombar.AnimatedBottomBar
 import java.util.*
@@ -94,49 +92,68 @@ class ProfileActivity : AppCompatActivity() {
 
 
     private fun getExpertData() {
-        expertRef.document(userId).get().addOnSuccessListener { documents ->
-            if (documents != null) {
-                val uImageUrl = documents.get("userImageUrl").toString()
-                val uName = documents.get("username").toString()
-                val uTitle = documents.get("title").toString()
 
-                if (documents.contains("title")){
-                    title.text = uTitle
+        Toast.makeText(baseContext,"> "+userId,Toast.LENGTH_SHORT).show()
+
+        val model = ExpertFilterModel("email",userId,"name",1,1)
+        ResponseBodyApi.getExpertResponseBody(baseContext,model,
+            onResponse = { json ->
+                val expert = json?.expert
+                if (expert != null) {
+                    userName.text = expert[0].name
                 }
-                // Profile Verification
-                if (documents.contains("verified")){
-                    val verifiedValue = documents.getBoolean("verified") as Boolean
-                    if (verifiedValue){
-                        verified.visibility = View.VISIBLE
-                    }
-                    else{
-                        verified.setImageResource(R.drawable.notverified)
-                    }
-                }else{
-                    verified.setImageResource(R.drawable.notverified)
-                }
-
-                // Last Active
-                val la = documents.get("lastActive") as Long
-                val timeAgo = TimeAgo()
-                val currentDate = timeAgo.getTimeAgo(Date(la), baseContext)
-                lastActive.text = currentDate
-
-
-                userName.text = uName
-                Glide.with(this).load(uImageUrl).into(userImage)
-                userImage.setOnClickListener {
-                    val intent = Intent(baseContext, ImageViewActivity::class.java)
-                    intent.putExtra("url", uImageUrl)
-                    startActivity(intent)
-                }
+            },
+            onFailure = { t ->
+                Toast.makeText(baseContext, t.message, Toast.LENGTH_SHORT).show()
             }
-        }.addOnFailureListener { exception ->
-            run {
-                Toast.makeText(applicationContext, "" + exception.message, Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
+        )
+
+
+
+
+//        expertRef.document(userId).get().addOnSuccessListener { documents ->
+//            if (documents != null) {
+//                val uImageUrl = documents.get("userImageUrl").toString()
+//                val uName = documents.get("username").toString()
+//                val uTitle = documents.get("title").toString()
+//
+//                if (documents.contains("title")){
+//                    title.text = uTitle
+//                }
+//                // Profile Verification
+//                if (documents.contains("verified")){
+//                    val verifiedValue = documents.getBoolean("verified") as Boolean
+//                    if (verifiedValue){
+//                        verified.visibility = View.VISIBLE
+//                    }
+//                    else{
+//                        verified.setImageResource(R.drawable.notverified)
+//                    }
+//                }else{
+//                    verified.setImageResource(R.drawable.notverified)
+//                }
+//
+//                // Last Active
+//                val la = documents.get("lastActive") as Long
+//                val timeAgo = TimeAgo()
+//                val currentDate = timeAgo.getTimeAgo(Date(la), baseContext)
+//                lastActive.text = currentDate
+//
+//
+//                userName.text = uName
+//                Glide.with(this).load(uImageUrl).into(userImage)
+//                userImage.setOnClickListener {
+//                    val intent = Intent(baseContext, ImageViewActivity::class.java)
+//                    intent.putExtra("url", uImageUrl)
+//                    startActivity(intent)
+//                }
+//            }
+//        }.addOnFailureListener { exception ->
+//            run {
+//                Toast.makeText(applicationContext, "" + exception.message, Toast.LENGTH_SHORT)
+//                    .show()
+//            }
+//        }
     }
 
 

@@ -55,7 +55,7 @@ class ViewAllExpertsActivity : AppCompatActivity() {
                 val expert = json?.expert
                 if (expert != null) {
                     for(ex in expert){
-                        devData.add(DevModel(ex.name,ex.userImageUrl,ex._id.toString(),0))
+                        devData.add(DevModel(ex.name,ex.userImageUrl,ex.email,0))
                         devAdapter.notifyDataSetChanged()
                     }
                 }

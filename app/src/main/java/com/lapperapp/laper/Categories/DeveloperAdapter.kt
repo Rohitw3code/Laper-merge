@@ -31,7 +31,7 @@ class DeveloperAdapter(private val mList: List<DevModel>) :
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, ProfileActivity::class.java)
-            intent.putExtra("userId", model.devId)
+            intent.putExtra("userId", model.email)
             context.startActivity(intent)
         }
 

@@ -4,12 +4,11 @@ import com.laperapp.laper.Data.LoginModel
 import com.laperapp.laper.Data.LoginResponse
 import com.laperapp.laper.Data.SignUpModel
 import com.laperapp.laper.Data.UserBase
+import com.lapperapp.laper.Data.ExpertFilterModel
 import com.lapperapp.laper.Data.ExpertBase
-import com.lapperapp.laper.Data.ExpertModel
 import com.lapperapp.laper.Data.UserUpdateModel
 import retrofit2.Call
 import retrofit2.http.*
-import kotlin.collections.HashMap as HashMap1
 
 interface ApiInterface {
 
@@ -30,8 +29,13 @@ interface ApiInterface {
                    @Body userUpdateModel: UserUpdateModel
     ):Call<UserBase>
 
-    @POST("api//user-fetch-experts")
+    @POST("api/user-fetch-experts")
     fun getExperts(@Header("x-access-token") token:String,
+    ):Call<ExpertBase>
+
+    @POST("api/user-fetch-experts")
+    fun getExpertData(@Header("x-access-token") token:String,
+                      @Body model:ExpertFilterModel
     ):Call<ExpertBase>
 
 
