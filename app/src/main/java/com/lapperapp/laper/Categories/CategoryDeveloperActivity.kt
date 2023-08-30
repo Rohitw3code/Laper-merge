@@ -100,7 +100,7 @@ class CategoryDeveloperActivity : AppCompatActivity() {
                 if (documents != null) {
                     val imageUrl = documents.get("userImageUrl").toString()
                     val name = documents.get("username").toString()
-                    data.add(DevModel(name, imageUrl, documents.id, 5))
+                    data.add(DevModel(name, imageUrl, documents.id,0))
                     adapter.notifyDataSetChanged()
                 }
             }

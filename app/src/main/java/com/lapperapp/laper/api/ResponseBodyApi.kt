@@ -8,18 +8,13 @@ import com.laperapp.laper.Data.LoginResponse
 import com.laperapp.laper.Data.SignUpModel
 import com.laperapp.laper.Data.UserBase
 import com.laperapp.laper.api.RetrofitClient
+import com.lapperapp.laper.Data.ExpertBase
 import com.lapperapp.laper.Data.UserUpdateModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 object ResponseBodyApi {
-//    fun getUser(context:Context): Call<UserFetch> {
-//        val token = RetrofitClient.getCredential("token",context)
-//        val jsonapi = RetrofitClient.getClient()
-//        return jsonapi.getUserData(token)
-//    }
-
 
     fun logInResponseBody(model: LoginModel, onResponse: (String?) -> Unit, onFailure: (Throwable) -> Unit) {
         val jsonapi = RetrofitClient.getClient()
@@ -67,6 +62,25 @@ object ResponseBodyApi {
             }
 
             override fun onFailure(call: Call<UserBase>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
+
+    fun getExperts(context: Context, onResponse: (ExpertBase?) -> Unit, onFailure: (Throwable) -> Unit) {
+        val token = RetrofitClient.getCredential("token",context)
+        val jsonapi = RetrofitClient.getClient()
+        jsonapi.getExperts(token).enqueue(object : Callback<ExpertBase> {
+            override fun onResponse(call: Call<ExpertBase>, response: Response<ExpertBase>) {
+                if (response.isSuccessful) {
+                    val userFetch: ExpertBase? = response.body()
+                    onResponse(userFetch)
+                } else {
+                    onFailure(Throwable("Response unsuccessful"))
+                }
+            }
+
+            override fun onFailure(call: Call<ExpertBase>, t: Throwable) {
                 onFailure(t)
             }
         })

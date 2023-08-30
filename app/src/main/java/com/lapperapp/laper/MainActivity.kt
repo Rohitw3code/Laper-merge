@@ -226,18 +226,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val nc = NotificationCounter(notificationBtn)
-        nc.fetchNotificationCount()
-        checkDashboardNotification(tabToAddBadgeAt)
+//        val nc = NotificationCounter(notificationBtn)
+//        nc.fetchNotificationCount()
+//        checkDashboardNotification(tabToAddBadgeAt)
     }
 
 
     override fun onStart() {
         super.onStart()
         fetchUserDetail()
-        val nc = NotificationCounter(notificationBtn)
-        nc.fetchNotificationCount()
-        checkDashboardNotification(tabToAddBadgeAt)
+//        val nc = NotificationCounter(notificationBtn)
+//        nc.fetchNotificationCount()
+//        checkDashboardNotification(tabToAddBadgeAt)
     }
 
     override fun onBackPressed() {

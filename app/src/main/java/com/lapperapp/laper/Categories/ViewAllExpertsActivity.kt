@@ -2,21 +2,16 @@ package com.lapperapp.laper.Categories
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.R
 
 class ViewAllExpertsActivity : AppCompatActivity() {
-    var db = Firebase.firestore
-    private lateinit var firebaseAuth: FirebaseAuth
     lateinit var devAdapter: DeveloperAdapter
-    var expertRef = db.collection("experts")
     private lateinit var recyclerView: RecyclerView
     var devData = ArrayList<DevModel>()
     private lateinit var toolbar: Toolbar
@@ -55,18 +50,20 @@ class ViewAllExpertsActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun getUsers() {
-        expertRef.orderBy(
-            "lastActive",
-            Query.Direction.DESCENDING
-        ).limit(16).get().addOnSuccessListener { documents ->
-            for (doc in documents) {
-                val imageUrl = doc.get("userImageUrl")
-                val name = doc.get("username")
-                devData.add(DevModel(name as String, imageUrl as String, doc.id, 3))
+        ResponseBodyApi.getExperts(baseContext,
+            onResponse = { json ->
+                val expert = json?.expert
+                if (expert != null) {
+                    for(ex in expert){
+                        devData.add(DevModel(ex.name,ex.userImageUrl,ex._id.toString(),0))
+                        devAdapter.notifyDataSetChanged()
+                    }
+                }
+            },
+            onFailure = { t ->
+                Toast.makeText(baseContext, t.message, Toast.LENGTH_SHORT).show()
             }
-            devAdapter.notifyDataSetChanged()
-        }.addOnFailureListener { exception ->
-        }
+        )
 
     }
 

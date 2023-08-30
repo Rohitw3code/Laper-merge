@@ -34,25 +34,25 @@ public class NotificationCounter {
 //                    imageBadgeView.setBadgeValue((int) count);
 //                });
 //
-        userRef.document(auth.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-                    // Check for changes to the "name" field in the document
-                    long count = snapshot.getLong("notificationCount");
-                    imageBadgeView.setShowCounter(true);
-                    imageBadgeView.setBadgeValue((int) count);
-                } else {
-                    Log.d(TAG, "Document does not exist");
-                }
-            }
-        });
+//        userRef.document(auth.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable DocumentSnapshot snapshot,
+//                                @Nullable FirebaseFirestoreException e) {
+//                if (e != null) {
+//                    Log.w(TAG, "Listen failed.", e);
+//                    return;
+//                }
+//
+//                if (snapshot != null && snapshot.exists()) {
+//                    // Check for changes to the "name" field in the document
+//                    long count = snapshot.getLong("notificationCount");
+//                    imageBadgeView.setShowCounter(true);
+//                    imageBadgeView.setBadgeValue((int) count);
+//                } else {
+//                    Log.d(TAG, "Document does not exist");
+//                }
+//            }
+//        });
 
     }
 }

@@ -31,6 +31,8 @@ import com.lapperapp.laper.R
 import com.lapperapp.laper.project.ProjectRequestActivity
 import com.lapperapp.laper.query.QuerySubActivity
 import de.hdodenhof.circleimageview.CircleImageView
+import java.util.*
+import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment() {
 
@@ -341,7 +343,7 @@ class HomeFragment : Fragment() {
                 for (doc in documents) {
                     val imageUrl = doc.get("userImageUrl")
                     val name = doc.get("username")
-                    devData.add(DevModel(name as String, imageUrl as String, doc.id, 3))
+                    devData.add(DevModel(name as String, imageUrl as String, doc.id, 0))
                 }
                 devAdapter.notifyDataSetChanged()
             }.addOnFailureListener { exception ->

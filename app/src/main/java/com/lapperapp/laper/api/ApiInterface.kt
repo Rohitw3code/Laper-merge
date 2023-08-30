@@ -4,6 +4,8 @@ import com.laperapp.laper.Data.LoginModel
 import com.laperapp.laper.Data.LoginResponse
 import com.laperapp.laper.Data.SignUpModel
 import com.laperapp.laper.Data.UserBase
+import com.lapperapp.laper.Data.ExpertBase
+import com.lapperapp.laper.Data.ExpertModel
 import com.lapperapp.laper.Data.UserUpdateModel
 import retrofit2.Call
 import retrofit2.http.*
@@ -27,6 +29,11 @@ interface ApiInterface {
     fun updateUser(@Header("x-access-token") token:String,
                    @Body userUpdateModel: UserUpdateModel
     ):Call<UserBase>
+
+    @POST("api//user-fetch-experts")
+    fun getExperts(@Header("x-access-token") token:String,
+    ):Call<ExpertBase>
+
 
     @GET("auth/google")
     fun authGoogle(): Call<LoginResponse>
