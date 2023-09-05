@@ -6,9 +6,7 @@ import com.laperapp.laper.Data.LoginResponse
 import com.laperapp.laper.Data.SignUpModel
 import com.laperapp.laper.Data.UserBase
 import com.laperapp.laper.api.RetrofitClient
-import com.lapperapp.laper.Data.ExpertFilterModel
-import com.lapperapp.laper.Data.ExpertBase
-import com.lapperapp.laper.Data.UserUpdateModel
+import com.lapperapp.laper.Data.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -104,7 +102,26 @@ object ResponseBodyApi {
         })
     }
 
+    fun postRequest(context: Context, request:RequestModel, onResponse: (String?) -> Unit, onFailure: (Throwable) -> Unit){
+        val jsonapi = RetrofitClient.getClient()
+        jsonapi.postRequest(request).enqueue(object : Callback<Message> {
+            override fun onResponse(call: Call<Message>, response: Response<Message>) {
+                if (response.isSuccessful) {
+                    val message: String? = response.message()
+                    onResponse(message)
+                } else {
+                    val errorMessage = "Response unsuccessful: ${response.code()}"
+                    onFailure(Throwable(errorMessage))                }
+            }
+            override fun onFailure(call: Call<Message>, t: Throwable) {
+                onFailure(t)
+            }
+        })
+    }
 
+    fun fetchRequest(clientId:String, onResponse: (String?) -> Unit, onFailure: (Throwable) -> Unit){
+
+    }
 
     fun updateUser(context: Context,updateModel: UserUpdateModel, onResponse: (UserBase?) -> Unit, onFailure: (Throwable) -> Unit){
         val token = RetrofitClient.getCredential("token",context)

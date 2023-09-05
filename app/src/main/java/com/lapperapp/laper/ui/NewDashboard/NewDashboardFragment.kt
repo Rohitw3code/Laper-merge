@@ -219,6 +219,9 @@ class NewDashboardFragment(
     }
 
     fun fetchMyRequests() {
+
+
+
         val query = reqRef.whereEqualTo("clientId", auth.uid)
         query.addSnapshotListener { snapshot, e ->
             if (e != null) {

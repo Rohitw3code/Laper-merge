@@ -126,10 +126,6 @@ class NewHomeFragment : Fragment() {
 
     fun setToken() {
         FirebaseMessaging.getInstance().token.addOnSuccessListener { s ->
-            val tokenhash = hashMapOf(
-                "token" to s
-            )
-//            tokenRef.child(firebaseAuth.uid.toString()).setValue(tokenhash)
             val hashMap = hashMapOf(
                 "lastActive" to System.currentTimeMillis(),
                 "token" to s,

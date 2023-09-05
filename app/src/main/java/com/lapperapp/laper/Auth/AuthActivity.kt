@@ -97,13 +97,9 @@ class AuthActivity : AppCompatActivity() {
 
     private fun createNewUser(account: GoogleSignInAccount) {
         val authId = FirebaseAuth.getInstance().uid.toString()
-
-
-
         adminRef.document("constants")
             .get().addOnSuccessListener { doc ->
                 val req = doc.getLong("req") as Long
-
                 userRef.document(authId)
                     .get().addOnSuccessListener { documents ->
                         run {

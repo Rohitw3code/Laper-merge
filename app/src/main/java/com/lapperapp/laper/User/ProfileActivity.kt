@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.Data.ExpertFilterModel
 import com.lapperapp.laper.R
@@ -110,52 +108,6 @@ class ProfileActivity : AppCompatActivity() {
             }
         )
 
-
-
-
-//        expertRef.document(userId).get().addOnSuccessListener { documents ->
-//            if (documents != null) {
-//                val uImageUrl = documents.get("userImageUrl").toString()
-//                val uName = documents.get("username").toString()
-//                val uTitle = documents.get("title").toString()
-//
-//                if (documents.contains("title")){
-//                    title.text = uTitle
-//                }
-//                // Profile Verification
-//                if (documents.contains("verified")){
-//                    val verifiedValue = documents.getBoolean("verified") as Boolean
-//                    if (verifiedValue){
-//                        verified.visibility = View.VISIBLE
-//                    }
-//                    else{
-//                        verified.setImageResource(R.drawable.notverified)
-//                    }
-//                }else{
-//                    verified.setImageResource(R.drawable.notverified)
-//                }
-//
-//                // Last Active
-//                val la = documents.get("lastActive") as Long
-//                val timeAgo = TimeAgo()
-//                val currentDate = timeAgo.getTimeAgo(Date(la), baseContext)
-//                lastActive.text = currentDate
-//
-//
-//                userName.text = uName
-//                Glide.with(this).load(uImageUrl).into(userImage)
-//                userImage.setOnClickListener {
-//                    val intent = Intent(baseContext, ImageViewActivity::class.java)
-//                    intent.putExtra("url", uImageUrl)
-//                    startActivity(intent)
-//                }
-//            }
-//        }.addOnFailureListener { exception ->
-//            run {
-//                Toast.makeText(applicationContext, "" + exception.message, Toast.LENGTH_SHORT)
-//                    .show()
-//            }
-//        }
     }
 
 

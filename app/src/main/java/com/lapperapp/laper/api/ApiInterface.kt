@@ -4,9 +4,7 @@ import com.laperapp.laper.Data.LoginModel
 import com.laperapp.laper.Data.LoginResponse
 import com.laperapp.laper.Data.SignUpModel
 import com.laperapp.laper.Data.UserBase
-import com.lapperapp.laper.Data.ExpertFilterModel
-import com.lapperapp.laper.Data.ExpertBase
-import com.lapperapp.laper.Data.UserUpdateModel
+import com.lapperapp.laper.Data.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -23,6 +21,8 @@ interface ApiInterface {
     @POST("api/login")
     fun logIn(@Body loginRequest: LoginModel): Call<LoginResponse>
 
+    @POST("api/add-request")
+    fun postRequest(@Body request:RequestModel): Call<Message>
 
     @PUT("api/user-update")
     fun updateUser(@Header("x-access-token") token:String,

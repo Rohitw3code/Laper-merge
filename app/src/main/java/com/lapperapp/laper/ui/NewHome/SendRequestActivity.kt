@@ -1,6 +1,7 @@
 package com.lapperapp.laper.ui.NewHome
 
 import android.annotation.SuppressLint
+import android.app.DownloadManager.Request
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
@@ -22,6 +23,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.laperapp.laper.ResponseBodyApi
+import com.laperapp.laper.api.RetrofitClient
+import com.lapperapp.laper.Data.RequestModel
 import com.lapperapp.laper.MainActivity
 import com.lapperapp.laper.PhotoActivity
 import com.lapperapp.laper.R
@@ -186,28 +190,20 @@ class SendRequestActivity : AppCompatActivity() {
     }
 
     fun pushRequest(url: String) {
-        val retime = System.currentTimeMillis()
-        val pst = psVale
-        val reqHash = hashMapOf(
-            "clientId" to auth.uid,
-            "requestTime" to retime,
-            "problemStatement" to pst,
-            "accepted" to false,
-            "imageURL" to url,
-            "expertId" to "all",
-            "problemSolved" to false,
-            "requiredTech" to category.map { it.id }.toMutableList()
-        )
-
-        pushRef.document(retime.toString()).set(reqHash).addOnCompleteListener {
-            progress.visibility = View.GONE
-            sendNotificationToAllExperts(pst)
-            Toast.makeText(baseContext, "Request Sent!", Toast.LENGTH_SHORT).show()
-            askBtn.isEnabled = false
-            val mrintent = Intent(baseContext, MainActivity::class.java)
-            startActivity(mrintent)
-            finish()
-        }
+        val request = RequestModel(auth.uid.toString(),psVale,"Android")
+        ResponseBodyApi.postRequest(baseContext,request, onResponse = { res->
+            if (res!=null){
+                Toast.makeText(baseContext,"Request Sent Successfully",Toast.LENGTH_SHORT).show()
+                progress.visibility = View.GONE
+                askBtn.isEnabled = false
+                sendNotificationToAllExperts(psVale)
+                val mrintent = Intent(baseContext, MainActivity::class.java)
+                startActivity(mrintent)
+                finish()
+            }
+        }, onFailure = {t->
+            t.printStackTrace()
+        })
 
 
     }
