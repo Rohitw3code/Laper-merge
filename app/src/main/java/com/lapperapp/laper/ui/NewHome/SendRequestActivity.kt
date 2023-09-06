@@ -1,7 +1,6 @@
 package com.lapperapp.laper.ui.NewHome
 
 import android.annotation.SuppressLint
-import android.app.DownloadManager.Request
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
@@ -17,15 +16,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
-import com.github.tommykw.tagview.TagView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.laperapp.laper.ResponseBodyApi
-import com.laperapp.laper.api.RetrofitClient
-import com.lapperapp.laper.Data.RequestModel
+import com.lapperapp.laper.PSRequest.RequestModel
 import com.lapperapp.laper.MainActivity
 import com.lapperapp.laper.PhotoActivity
 import com.lapperapp.laper.R

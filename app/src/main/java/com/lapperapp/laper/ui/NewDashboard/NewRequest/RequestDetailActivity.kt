@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.ImageViewActivity
 import com.lapperapp.laper.R
 import com.lapperapp.laper.ui.NewDashboard.TagAdapter
@@ -81,7 +82,6 @@ class RequestDetailActivity : AppCompatActivity() {
         tagAdapter.notifyDataSetChanged()
 
         cancelBtn.setOnClickListener {
-            cancelRequest()
         }
 
 
@@ -98,63 +98,19 @@ class RequestDetailActivity : AppCompatActivity() {
         return true
     }
 
-    fun fetchTag(tagId: String) {
-        techRef.document(tagId)
-            .get().addOnSuccessListener { doc ->
-                val imageUrl = doc.getString("imageURL").toString()
-                val name = doc.getString("name").toString()
-                tagList.add(TagModel(tagId, imageUrl, name))
-                tagAdapter.notifyDataSetChanged()
-            }
 
-    }
-
-    fun cancelRequest() {
-        reqRef.document(reqId).delete().addOnSuccessListener {
-            Toast.makeText(baseContext, "Request Deleted!", Toast.LENGTH_SHORT).show()
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     fun fetchRequestDetail(reqId: String) {
-        reqRef.document(reqId.trim()).get().addOnSuccessListener { doc ->
+        ResponseBodyApi.fetchRequest("", onResponse = { res->
+            val req = res?.request
+            if (req != null) {
+                for(model in req){
 
-            expertId = doc.getString("expertId").toString()
-            tags = doc.get("requiredTech") as ArrayList<String>
-            problemStatement = doc.getString("problemStatement").toString()
-            requestTime = doc.getLong("requestTime") as Long
-            val imageUrl = doc.getString("imageURL").toString()
-            if (!imageUrl.isEmpty()){
-                Glide.with(baseContext).load(imageUrl).into(psImage)
+                }
             }
-            else{
-                psImage.visibility = View.GONE
-            }
-            psImage.setOnClickListener{
-                val intent = Intent(baseContext,ImageViewActivity::class.java)
-                intent.putExtra("url",imageUrl)
-                startActivity(intent)
-            }
-
-            for (tag in tags) {
-                fetchTag(tag)
-            }
-            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm a")
-            val currentDate = sdf.format(requestTime)
-            dateView.text = currentDate
-            descView.text = problemStatement
-            if (expertId.equals("all")) {
-                nameView.text = "Expert"
-            } else {
-                expertRef.document(expertId)
-                    .get().addOnSuccessListener { doc1 ->
-                        val expertName = doc1.getString("username").toString()
-                        val expertImageUrl = doc1.getString("userImageUrl").toString()
-                        nameView.text = expertName
-                        Glide.with(baseContext).load(expertImageUrl).placeholder(R.drawable.logo)
-                            .into(userImgView)
-                    }
-            }
-        }
+        }, onFailure = {t->
+            t.printStackTrace()
+        })
     }
 }

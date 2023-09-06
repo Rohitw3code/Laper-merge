@@ -14,12 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.lapperapp.laper.AllRequestsActivity
+import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.Categories.ViewAllExpertsActivity
 import com.lapperapp.laper.R
 import com.lapperapp.laper.ui.NewDashboard.NewAvailableExpert.NewAvailableExpertAdapter
@@ -87,13 +84,13 @@ class NewDashboardFragment(
 
 
 
+        fetchMyRequests()
 
         return view
     }
 
     override fun onStart() {
         super.onStart()
-        fetchMyRequests()
         fetchAvailableExpert()
         clearNotification()
     }
@@ -218,130 +215,28 @@ class NewDashboardFragment(
 //            }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun fetchMyRequests() {
 
+        val arr = ArrayList<String>()
+        arr.add("python")
 
 
-        val query = reqRef.whereEqualTo("clientId", auth.uid)
-        query.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Log.w(TAG, "Listen failed.", e)
-                return@addSnapshotListener
-            }
-            for (doc in snapshot!!.documents) {
-                Log.d(TAG, "${doc.id} => ${doc.data}")
-                if (doc.exists()) {
-                    if (!uReqIds.contains(doc.id)) {
-                        val reqTime = doc.getLong("requestTime") as Long
-                        val problemStatement = doc.getString("problemStatement") as String
-                        val expertId = doc.getString("expertId") as String
-                        val requiredTech = doc.get("requiredTech") as ArrayList<String>
-                        if (expertId.equals("all")) {
-                            reqSentModelModel.add(
-                                NewRequestSentModel(
-                                    reqTime,
-                                    expertId,
-                                    doc.id,
-                                    "Laper Experts",
-                                    "",
-                                    problemStatement,
-                                    requiredTech
-                                )
-                            )
-                            uReqIds.add(doc.id)
-                        } else {
-                            expertsRef.document(expertId).get().addOnSuccessListener { doc1 ->
-                                    if (doc1.exists()) {
-                                        val expertName = doc1.getString("username").toString()
-                                        val expertImageUrl =
-                                            doc1.getString("userImageUrl").toString()
-                                        reqSentModelModel.add(
-                                            NewRequestSentModel(
-                                                reqTime,
-                                                expertId,
-                                                doc.id,
-                                                expertName,
-                                                expertImageUrl,
-                                                problemStatement,
-                                                requiredTech
-                                            )
-                                        )
-                                        uReqIds.add(doc.id)
-                                        reqSentAdapter.notifyDataSetChanged()
-                                    } else {
-                                        uReqIds.remove(doc.id)
-                                        reqSentAdapter.notifyDataSetChanged()
-                                    }
-                                }
-                        }
-                        reqSentAdapter.notifyDataSetChanged()
-                    }
-                } else {
-                    uReqIds.remove(doc.id)
+        ResponseBodyApi.fetchRequest("", onResponse = { res->
+            val req = res?.request
+            if (req != null) {
+                for(model in req){
+                    reqSentModelModel.add(NewRequestSentModel(12,model.expertId,model.requestId,"laper expert","",model.problemStatement, arr))
+                    uReqIds.add("")
                     reqSentAdapter.notifyDataSetChanged()
                 }
             }
-
-
-            // Remove the IDs from the list that don't exist in the snapshot
-            val snapshotIds = snapshot.documents.map { it.id }
-            uReqIds.filter { !snapshotIds.contains(it) }.forEach {
-                val index = reqSentModelModel.indexOfFirst { model -> model.reqId == it }
-                if (index != -1) {
-                    reqSentModelModel.removeAt(index)
-                    reqSentAdapter.notifyItemRemoved(index)
-                }
-                uReqIds.remove(it)
-            }
-
-        }
+        }, onFailure = {t->
+            t.printStackTrace()
+        })
 
 
     }
 
-//        reqRef.whereEqualTo("clientId", auth.uid).get().addOnSuccessListener { docs ->
-//            for (doc in docs.documents) {
-//                if (!uReqIds.contains(doc.id)) {
-//                    val reqTime = doc.getLong("requestTime") as Long
-//                    val problemStatement = doc.getString("problemStatement") as String
-//                    val expertId = doc.getString("expertId") as String
-//                    val requiredTech = doc.get("requiredTech") as ArrayList<String>
-//                    if (expertId.equals("all")) {
-//                        reqSentModelModel.add(
-//                            NewRequestSentModel(
-//                                reqTime,
-//                                expertId,
-//                                doc.id,
-//                                "Laper Experts",
-//                                "",
-//                                problemStatement,
-//                                requiredTech
-//                            )
-//                        )
-//                        uReqIds.add(doc.id)
-//                    } else {
-//                        expertsRef.document(expertId)
-//                            .get().addOnSuccessListener { doc1 ->
-//                                val expertName = doc1.getString("username").toString()
-//                                val expertImageUrl = doc1.getString("userImageUrl").toString()
-//                                reqSentModelModel.add(
-//                                    NewRequestSentModel(
-//                                        reqTime,
-//                                        expertId,
-//                                        doc.id,
-//                                        expertName,
-//                                        expertImageUrl,
-//                                        problemStatement,
-//                                        requiredTech
-//                                    )
-//                                )
-//                                uReqIds.add(doc.id)
-//                                reqSentAdapter.notifyDataSetChanged()
-//                            }
-//                    }
-//                    reqSentAdapter.notifyDataSetChanged()
-//                }
-//            }
-//        }
 }
 

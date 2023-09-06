@@ -108,7 +108,7 @@ class NewHomeFragment : Fragment() {
                 }
             },
             onFailure = { t ->
-                Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
             }
         )
     }

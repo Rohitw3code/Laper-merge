@@ -36,8 +36,6 @@ class ViewAllExpertsActivity : AppCompatActivity() {
         }
 
 
-
-
         getUsers()
     }
 

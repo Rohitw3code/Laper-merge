@@ -49,15 +49,9 @@ class NewRequestAdapter(private val mList: List<NewRequestSentModel>) :
         holder.reqPs.text = str(model.ps)
         Glide.with(context).load(model.expImage).placeholder(R.drawable.logo).into(holder.reqImage)
         holder.itemView.setOnClickListener {
-            reqRef.document(model.reqId).get().addOnSuccessListener { doc ->
-                if (doc.exists()) {
-                    val reqIntent = Intent(context, RequestDetailActivity::class.java)
-                    reqIntent.putExtra("requestId", model.reqId)
-                    context.startActivity(reqIntent)
-                } else {
-                    Toast.makeText(context, "Request is Cancelled !", Toast.LENGTH_SHORT).show()
-                }
-            }
+            val reqIntent = Intent(context, RequestDetailActivity::class.java)
+            reqIntent.putExtra("requestId", model.reqId)
+            context.startActivity(reqIntent)
         }
 
     }

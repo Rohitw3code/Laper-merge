@@ -7,6 +7,8 @@ import com.laperapp.laper.Data.SignUpModel
 import com.laperapp.laper.Data.UserBase
 import com.laperapp.laper.api.RetrofitClient
 import com.lapperapp.laper.Data.*
+import com.lapperapp.laper.PSRequest.FetchRequestModel
+import com.lapperapp.laper.PSRequest.RequestModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -102,7 +104,7 @@ object ResponseBodyApi {
         })
     }
 
-    fun postRequest(context: Context, request:RequestModel, onResponse: (String?) -> Unit, onFailure: (Throwable) -> Unit){
+    fun postRequest(context: Context, request: RequestModel, onResponse: (String?) -> Unit, onFailure: (Throwable) -> Unit){
         val jsonapi = RetrofitClient.getClient()
         jsonapi.postRequest(request).enqueue(object : Callback<Message> {
             override fun onResponse(call: Call<Message>, response: Response<Message>) {
@@ -119,8 +121,21 @@ object ResponseBodyApi {
         })
     }
 
-    fun fetchRequest(clientId:String, onResponse: (String?) -> Unit, onFailure: (Throwable) -> Unit){
-
+    fun fetchRequest(clientId:String, onResponse: (FetchRequestModel?) -> Unit, onFailure: (Throwable) -> Unit){
+        val jsonapi = RetrofitClient.getClient()
+        jsonapi.fetchRequest().enqueue(object : Callback<FetchRequestModel> {
+            override fun onResponse(call: Call<FetchRequestModel>, response: Response<FetchRequestModel>) {
+                if (response.isSuccessful) {
+                    val fetchRequestModel: FetchRequestModel? = response.body()
+                    onResponse(fetchRequestModel)
+                } else {
+                    val errorMessage = "Response unsuccessful: ${response.code()}"
+                    onFailure(Throwable(errorMessage))                }
+            }
+            override fun onFailure(call: Call<FetchRequestModel>, t: Throwable) {
+                onFailure(t)
+            }
+        })
     }
 
     fun updateUser(context: Context,updateModel: UserUpdateModel, onResponse: (UserBase?) -> Unit, onFailure: (Throwable) -> Unit){

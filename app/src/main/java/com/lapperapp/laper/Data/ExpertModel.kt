@@ -1,9 +1,5 @@
 package com.lapperapp.laper.Data
 
-import java.util.*
-import kotlin.collections.ArrayList
-
-
 data class ExpertModel(
     val _id:Object,
     val skills:ArrayList<String>,
