@@ -1,8 +1,8 @@
 package com.lapperapp.laper.Data
 
-data class ExpertFilterModel (
+data class FilterModel (
     val field:String,
     val value:String,
     val sortField:String,
-    val sort:Int,
-    val lim:Int)
+    val sort:Int=1,
+    val lim:Int=0)

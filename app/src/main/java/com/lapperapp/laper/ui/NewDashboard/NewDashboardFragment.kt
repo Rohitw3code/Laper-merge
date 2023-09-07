@@ -18,6 +18,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.Categories.ViewAllExpertsActivity
+import com.lapperapp.laper.Data.FilterModel
 import com.lapperapp.laper.R
 import com.lapperapp.laper.ui.NewDashboard.NewAvailableExpert.NewAvailableExpertAdapter
 import com.lapperapp.laper.ui.NewDashboard.NewAvailableExpert.NewAvailableExpertModel
@@ -222,7 +223,9 @@ class NewDashboardFragment(
         arr.add("python")
 
 
-        ResponseBodyApi.fetchRequest("", onResponse = { res->
+        val filter = FilterModel("clientId","Rohit Kumar","requestTime", lim = 6)
+
+        ResponseBodyApi.fetchRequest(filter, onResponse = { res->
             val req = res?.request
             if (req != null) {
                 for(model in req){

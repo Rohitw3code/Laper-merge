@@ -16,10 +16,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.laperapp.laper.ResponseBodyApi
+import com.lapperapp.laper.Data.FilterModel
 import com.lapperapp.laper.ImageViewActivity
 import com.lapperapp.laper.R
 import com.lapperapp.laper.ui.NewDashboard.TagAdapter
 import com.lapperapp.laper.ui.NewDashboard.TagModel
+import com.lapperapp.laper.utils.TimeAgo
 import de.hdodenhof.circleimageview.CircleImageView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -100,13 +102,23 @@ class RequestDetailActivity : AppCompatActivity() {
 
 
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     fun fetchRequestDetail(reqId: String) {
-        ResponseBodyApi.fetchRequest("", onResponse = { res->
+        val filter = FilterModel("requestId",reqId,"requestTime")
+        ResponseBodyApi.fetchRequest(filter, onResponse = { res->
             val req = res?.request
             if (req != null) {
-                for(model in req){
+                if (!req.isEmpty()) {
+                        descView.setText(req[0].problemStatement)
+                        for(tag in req[0].requiredTech){
+                            tagList.add(TagModel(tag,"",tag))
+                        }
 
+                    val requestTime:Long = req[0].requestTime.toLong() // Use safe call operator ?. to handle null
+                    val timeAgo = TimeAgo()
+                    val currentDate = timeAgo.getTimeAgo(Date(requestTime), baseContext)
+                    dateView.text = currentDate
+                    tagAdapter.notifyDataSetChanged()
                 }
             }
         }, onFailure = {t->

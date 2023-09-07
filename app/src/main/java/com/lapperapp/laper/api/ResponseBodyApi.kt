@@ -85,7 +85,7 @@ object ResponseBodyApi {
         })
     }
 
-    fun getExpertResponseBody(context: Context, model:ExpertFilterModel, onResponse: (ExpertBase?) -> Unit, onFailure: (Throwable) -> Unit) {
+    fun getExpertResponseBody(context: Context, model:FilterModel, onResponse: (ExpertBase?) -> Unit, onFailure: (Throwable) -> Unit) {
         val token = RetrofitClient.getCredential("token",context)
         val jsonapi = RetrofitClient.getClient()
         jsonapi.getExpertData(token,model).enqueue(object : Callback<ExpertBase> {
@@ -104,7 +104,7 @@ object ResponseBodyApi {
         })
     }
 
-    fun postRequest(context: Context, request: RequestModel, onResponse: (String?) -> Unit, onFailure: (Throwable) -> Unit){
+    fun postRequest(request: RequestModel, onResponse: (String?) -> Unit, onFailure: (Throwable) -> Unit){
         val jsonapi = RetrofitClient.getClient()
         jsonapi.postRequest(request).enqueue(object : Callback<Message> {
             override fun onResponse(call: Call<Message>, response: Response<Message>) {
@@ -121,9 +121,9 @@ object ResponseBodyApi {
         })
     }
 
-    fun fetchRequest(clientId:String, onResponse: (FetchRequestModel?) -> Unit, onFailure: (Throwable) -> Unit){
+    fun fetchRequest(filterModel: FilterModel,onResponse: (FetchRequestModel?) -> Unit, onFailure: (Throwable) -> Unit){
         val jsonapi = RetrofitClient.getClient()
-        jsonapi.fetchRequest().enqueue(object : Callback<FetchRequestModel> {
+        jsonapi.fetchRequest(filterModel).enqueue(object : Callback<FetchRequestModel> {
             override fun onResponse(call: Call<FetchRequestModel>, response: Response<FetchRequestModel>) {
                 if (response.isSuccessful) {
                     val fetchRequestModel: FetchRequestModel? = response.body()
@@ -137,6 +137,7 @@ object ResponseBodyApi {
             }
         })
     }
+
 
     fun updateUser(context: Context,updateModel: UserUpdateModel, onResponse: (UserBase?) -> Unit, onFailure: (Throwable) -> Unit){
         val token = RetrofitClient.getCredential("token",context)

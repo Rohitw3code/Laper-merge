@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
 import com.laperapp.laper.ResponseBodyApi
-import com.lapperapp.laper.Data.ExpertFilterModel
+import com.lapperapp.laper.Data.FilterModel
 import com.lapperapp.laper.R
 import com.lapperapp.laper.TimeAgo
 import com.lapperapp.laper.User.Personal.PersonalFragment
@@ -90,7 +90,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun getExpertData() {
 
-        val model = ExpertFilterModel("email",userId,"name",1,1)
+        val model = FilterModel("email",userId,"name",1,1)
         ResponseBodyApi.getExpertResponseBody(baseContext,model,
             onResponse = { json ->
                 val expert = json?.expert

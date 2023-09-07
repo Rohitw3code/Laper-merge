@@ -10,6 +10,7 @@ import com.lapperapp.laper.PSRequest.RequestIdModel
 import com.lapperapp.laper.PSRequest.RequestModel
 import retrofit2.Call
 import retrofit2.http.*
+import java.io.File
 
 interface ApiInterface {
 
@@ -28,7 +29,7 @@ interface ApiInterface {
     fun postRequest(@Body request: RequestModel): Call<Message>
 
     @POST("api/fetch-requests")
-    fun fetchRequest(): Call<FetchRequestModel>
+    fun fetchRequest(@Body filter:FilterModel): Call<FetchRequestModel>
 
     @POST("api/update-request")
     fun updateRequest(): Call<RequestIdModel>
@@ -45,7 +46,7 @@ interface ApiInterface {
 
     @POST("api/user-fetch-experts")
     fun getExpertData(
-        @Header("x-access-token") token: String, @Body model: ExpertFilterModel
+        @Header("x-access-token") token: String, @Body model: FilterModel
     ): Call<ExpertBase>
 
     @GET("auth/google")

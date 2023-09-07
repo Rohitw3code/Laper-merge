@@ -8,7 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.laperapp.laper.ResponseBodyApi
-import com.lapperapp.laper.Data.ExpertFilterModel
+import com.lapperapp.laper.Data.FilterModel
 import com.lapperapp.laper.R
 import com.lapperapp.laper.utils.TimeAgo
 import java.util.*
@@ -42,7 +42,7 @@ class PersonalFragment(private var userId: String) : Fragment() {
     }
 
     private fun getUserData() {
-        val model = ExpertFilterModel("email",userId,"name",1,1)
+        val model = FilterModel("email",userId,"name",1,1)
         ResponseBodyApi.getExpertResponseBody(requireContext(),model,
             onResponse = { json ->
                 val expert = json?.expert
