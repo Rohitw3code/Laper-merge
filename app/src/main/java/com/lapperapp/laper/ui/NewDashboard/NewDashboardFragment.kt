@@ -164,7 +164,7 @@ class NewDashboardFragment(
             val req = res?.request
             if (req != null) {
                 for(model in req){
-                    reqSentModelModel.add(NewRequestSentModel(12,model.expertId,model.requestId,"laper expert","",model.problemStatement, arr))
+                    reqSentModelModel.add(NewRequestSentModel(model.requestTime.toLong(),model.expertId,model.requestId,"laper expert","",model.problemStatement, arr))
                     uReqIds.add("")
                     reqSentAdapter.notifyDataSetChanged()
                 }
