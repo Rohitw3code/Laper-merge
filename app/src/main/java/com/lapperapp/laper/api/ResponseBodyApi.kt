@@ -104,9 +104,10 @@ object ResponseBodyApi {
         })
     }
 
-    fun postRequest(request: RequestModel, onResponse: (String?) -> Unit, onFailure: (Throwable) -> Unit){
+    fun postRequest(context: Context,request: RequestModel, onResponse: (String?) -> Unit, onFailure: (Throwable) -> Unit){
+        val token = RetrofitClient.getCredential("token", context)
         val jsonapi = RetrofitClient.getClient()
-        jsonapi.postRequest(request).enqueue(object : Callback<Message> {
+        jsonapi.postRequest(request,token).enqueue(object : Callback<Message> {
             override fun onResponse(call: Call<Message>, response: Response<Message>) {
                 if (response.isSuccessful) {
                     val message: String? = response.message()

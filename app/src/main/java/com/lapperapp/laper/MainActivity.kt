@@ -35,7 +35,6 @@ import com.lapperapp.laper.project.ProjectRequestActivity
 import com.lapperapp.laper.settings.SettingsActivity
 import com.lapperapp.laper.ui.NewDashboard.NewDashboardFragment
 import com.lapperapp.laper.ui.NewHome.NewHomeFragment
-import com.lapperapp.laper.ui.home.NotificationCounter
 import de.hdodenhof.circleimageview.CircleImageView
 import nl.joery.animatedbottombar.AnimatedBottomBar
 import ru.nikartm.support.ImageBadgeView

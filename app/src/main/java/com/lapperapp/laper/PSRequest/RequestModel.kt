@@ -1,3 +1,5 @@
 package com.lapperapp.laper.PSRequest
 
-data class RequestModel(val clientId:String, val problemStatement:String, val requiredTech:String)
+data class RequestModel(val problemStatement:String, val requiredTech:List<String>)
+
+//,val imageUrls:ArrayList<String>

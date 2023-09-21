@@ -151,69 +151,7 @@ class NewDashboardFragment(
                 }
 
             }
-
-            // Remove the IDs from the list that don't exist in the snapshot
-
-//            val snapshotIds = snapshot.documents.map { it.id }
-//            uReqIds.filter { !snapshotIds.contains(it) }.forEach {
-//                val index = reqSentModelModel.indexOfFirst { model -> model.reqId == it }
-//                if (index != -1) {
-//                    try {
-//                        availableExpertModel.removeAt(index)
-//                        availableExpertAdapter.notifyItemRemoved(index)
-//                    }
-//                    finally{
-//
-//                    }
-//                }
-//                uAvaExpertIds.remove(it)
-//            }
-
         }
-
-
-//        userRef.document(auth.uid.toString())
-//            .collection("availableExpert")
-//            .get()
-//            .addOnSuccessListener { docs ->
-//                for (doc in docs.documents) {
-//                    if (!uAvaExpertIds.contains(doc.id)) {
-//                        if (doc.contains("requestId") && doc.contains("acceptTime") && doc.contains(
-//                                "expertId"
-//                            )
-//                        ) {
-//                            val reqId = doc.getString("requestId") as String
-//                            val acceptTime = doc.getLong("acceptedTime") as Long
-//                            val expertId = doc.getString("expertId") as String
-//                            expertsRef.document(expertId)
-//                                .get().addOnSuccessListener { edoc ->
-//                                    val name = edoc.getString("username") as String
-//                                    val imageUrl = edoc.getString("userImageUrl") as String
-//                                    expertsRef.document(expertId).collection("requests")
-//                                        .document(reqId).get().addOnSuccessListener { doc ->
-//                                            if (doc.exists()) {
-//                                                val ps = doc.getString("problemStatement") as String
-//                                                availableExpertModel.add(
-//                                                    NewAvailableExpertModel(
-//                                                        name,
-//                                                        imageUrl,
-//                                                        "",
-//                                                        acceptTime,
-//                                                        expertId,
-//                                                        reqId,
-//                                                        ps
-//                                                    )
-//                                                )
-//                                                availableExpertAdapter.notifyDataSetChanged()
-//                                                uAvaExpertIds.add(doc.id)
-//                                            }
-//                                        }
-//                                }
-//
-//                        }
-//                    }
-//                }
-//            }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -221,10 +159,7 @@ class NewDashboardFragment(
 
         val arr = ArrayList<String>()
         arr.add("python")
-
-
-        val filter = FilterModel("clientId","Rohit Kumar","requestTime", lim = 6)
-
+        val filter = FilterModel("clientId","rohit@gmail.com","requestTime", lim = 6)
         ResponseBodyApi.fetchRequest(filter, onResponse = { res->
             val req = res?.request
             if (req != null) {

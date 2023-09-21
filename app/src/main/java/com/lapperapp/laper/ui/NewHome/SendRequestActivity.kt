@@ -186,13 +186,18 @@ class SendRequestActivity : AppCompatActivity() {
     }
 
     fun pushRequest(url: String) {
-        val request = RequestModel(auth.uid.toString(),psVale,"Android")
+        val arr = listOf<String>("Python")
+
+        val url = ArrayList<String>()
+        url.add("url1")
+
+        val request = RequestModel(psVale,arr)
         ResponseBodyApi.postRequest(baseContext,request, onResponse = { res->
             if (res!=null){
                 Toast.makeText(baseContext,"Request Sent Successfully",Toast.LENGTH_SHORT).show()
                 progress.visibility = View.GONE
                 askBtn.isEnabled = false
-                sendNotificationToAllExperts(psVale)
+//                sendNotificationToAllExperts(psVale)
                 val mrintent = Intent(baseContext, MainActivity::class.java)
                 startActivity(mrintent)
                 finish()

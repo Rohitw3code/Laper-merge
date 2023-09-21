@@ -26,13 +26,11 @@ interface ApiInterface {
     fun logIn(@Body loginRequest: LoginModel): Call<LoginResponse>
 
     @POST("api/add-request")
-    fun postRequest(@Body request: RequestModel): Call<Message>
+    fun postRequest(@Body request: RequestModel,
+                    @Header("x-access-token") token: String): Call<Message>
 
     @POST("api/fetch-requests")
     fun fetchRequest(@Body filter:FilterModel): Call<FetchRequestModel>
-
-    @POST("api/update-request")
-    fun updateRequest(): Call<RequestIdModel>
 
     @PUT("api/user-update")
     fun updateUser(
