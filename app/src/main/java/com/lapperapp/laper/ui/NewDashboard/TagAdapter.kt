@@ -11,8 +11,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.lapperapp.laper.R
+import com.lapperapp.laper.ui.NewHome.SelectCategorymodel
 
-class TagAdapter(private val mList: List<TagModel>) :
+class TagAdapter(private val mList: ArrayList<SelectCategorymodel>) :
     RecyclerView.Adapter<TagAdapter.ViewHolder>() {
     var db = Firebase.firestore
     var userRef = db.collection("users")
@@ -28,7 +29,7 @@ class TagAdapter(private val mList: List<TagModel>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val context = holder.itemView.context
         val model = mList[position]
-        Glide.with(context).load(model.tagImageUrl).placeholder(R.drawable.logo)
+        Glide.with(context).load(model.image).placeholder(R.drawable.logo)
             .into(holder.tagImage)
     }
 

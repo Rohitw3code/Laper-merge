@@ -24,6 +24,7 @@ import com.lapperapp.laper.ui.NewDashboard.NewAvailableExpert.NewAvailableExpert
 import com.lapperapp.laper.ui.NewDashboard.NewAvailableExpert.NewAvailableExpertModel
 import com.lapperapp.laper.ui.NewDashboard.NewRequest.NewRequestAdapter
 import com.lapperapp.laper.ui.NewDashboard.NewRequest.NewRequestSentModel
+import com.lapperapp.laper.ui.NewHome.SelectCategorymodel
 import com.lapperapp.laper.ui.chats.AllChatsActivity
 import nl.joery.animatedbottombar.AnimatedBottomBar
 
@@ -92,7 +93,7 @@ class NewDashboardFragment(
 
     override fun onStart() {
         super.onStart()
-        fetchAvailableExpert()
+
         clearNotification()
     }
 
@@ -102,57 +103,6 @@ class NewDashboardFragment(
         bottomBar.clearBadgeAtTab(tabToAddBadgeAt)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun fetchAvailableExpert() {
-        val query = userRef.document(auth.uid.toString()).collection("availableExpert")
-        query.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                Log.w(TAG, "Listen failed.", e)
-                return@addSnapshotListener
-            }
-
-            for (doc in snapshot!!.documents) {
-                Log.d(TAG, "${doc.id} => ${doc.data}")
-                if (!uAvaExpertIds.contains(doc.id)) {
-                    if (doc.exists()) {
-                        if (doc.contains("requestId") && doc.contains("acceptedTime") && doc.contains("expertId")) {
-                            val reqId = doc.getString("requestId") as String
-                            val acceptTime = doc.getLong("acceptedTime") as Long
-                            val expertId = doc.getString("expertId") as String
-                            expertsRef.document(expertId).get().addOnSuccessListener { edoc ->
-                                    val name = edoc.getString("username") as String
-                                    val imageUrl = edoc.getString("userImageUrl") as String
-                                    expertsRef.document(expertId).collection("requests")
-                                        .document(reqId).get().addOnSuccessListener { doc ->
-                                            if (doc.exists()) {
-                                                val ps = doc.getString("problemStatement") as String
-                                                availableExpertModel.add(
-                                                    NewAvailableExpertModel(
-                                                        name,
-                                                        imageUrl,
-                                                        "",
-                                                        acceptTime,
-                                                        expertId,
-                                                        reqId,
-                                                        ps
-                                                    )
-                                                )
-                                                availableExpertAdapter.notifyDataSetChanged()
-                                                uAvaExpertIds.add(doc.id)
-                                            }
-                                        }
-                                }
-
-                        }
-                    } else {
-                        uAvaExpertIds.remove(doc.id)
-                        availableExpertAdapter.notifyDataSetChanged()
-                    }
-                }
-
-            }
-        }
-    }
 
     @SuppressLint("NotifyDataSetChanged")
     fun fetchMyRequests() {
@@ -160,17 +110,19 @@ class NewDashboardFragment(
         val arr = ArrayList<String>()
         arr.add("python")
         val filter = FilterModel("clientId","rohit@gmail.com","requestTime", lim = 6)
+        val ret = arrayOf(SelectCategorymodel("Python","","123456"))
+
         ResponseBodyApi.fetchRequest(filter, onResponse = { res->
             val req = res?.request
             if (req != null) {
                 for(model in req){
-                    reqSentModelModel.add(NewRequestSentModel(model.requestTime.toLong(),model.expertId,model.requestId,"laper expert","",model.problemStatement, arr))
+                    reqSentModelModel.add(NewRequestSentModel(model.requestTime.toLong(),model.expertId,model.requestId,"laper expert","",model.problemStatement, ret))
                     uReqIds.add("")
                     reqSentAdapter.notifyDataSetChanged()
                 }
             }
         }, onFailure = {t->
-            t.printStackTrace()
+            Toast.makeText(context,t.message,Toast.LENGTH_SHORT).show()
         })
 
 

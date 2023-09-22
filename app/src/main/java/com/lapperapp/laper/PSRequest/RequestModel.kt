@@ -1,5 +1,5 @@
 package com.lapperapp.laper.PSRequest
 
-data class RequestModel(val problemStatement:String, val requiredTech:List<String>)
+import com.lapperapp.laper.ui.NewHome.SelectCategorymodel
 
-//,val imageUrls:ArrayList<String>
+data class RequestModel(val problemStatement:String, val requiredTech:ArrayList<SelectCategorymodel>,val imageUrls:ArrayList<String>)

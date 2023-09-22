@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.Query
@@ -29,7 +27,7 @@ class SelectCategoryActivity : AppCompatActivity() {
     private lateinit var psValue: String
     private lateinit var imageUri: String
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_category)
@@ -53,7 +51,6 @@ class SelectCategoryActivity : AppCompatActivity() {
         adapter = SelectCategoryAdapter(data, keys)
         recyclerView.layoutManager = LinearLayoutManager(baseContext)
         recyclerView.adapter = adapter
-        adapter.notifyDataSetChanged()
 
         next.setOnClickListener { v ->
             if(!keys.isEmpty()){
@@ -64,11 +61,11 @@ class SelectCategoryActivity : AppCompatActivity() {
                 startActivity(srintent)
             }
             else{
-                Toast.makeText(baseContext,"select atleast one", Toast.LENGTH_SHORT).show()
+                Toast.makeText(baseContext,"No category selected", Toast.LENGTH_SHORT).show()
             }
         }
 
-
+        adapter.notifyDataSetChanged()
         fetchCats()
 
     }

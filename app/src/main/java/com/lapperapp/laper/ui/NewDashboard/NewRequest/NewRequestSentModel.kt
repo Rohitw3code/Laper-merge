@@ -1,5 +1,7 @@
 package com.lapperapp.laper.ui.NewDashboard.NewRequest
 
+import com.lapperapp.laper.ui.NewHome.SelectCategorymodel
+
 data class NewRequestSentModel(
     val reqSentDate: Long,
     val expertId: String,
@@ -7,5 +9,5 @@ data class NewRequestSentModel(
     val expName: String,
     val expImage: String,
     val ps: String,
-    val techId: ArrayList<String>
+    val requiredTech: Array<SelectCategorymodel>
 )

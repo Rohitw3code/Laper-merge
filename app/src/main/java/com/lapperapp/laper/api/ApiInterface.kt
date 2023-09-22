@@ -26,8 +26,9 @@ interface ApiInterface {
     fun logIn(@Body loginRequest: LoginModel): Call<LoginResponse>
 
     @POST("api/add-request")
-    fun postRequest(@Body request: RequestModel,
-                    @Header("x-access-token") token: String): Call<Message>
+    fun postRequest(@Header("x-access-token") token: String,
+                    @Body request: RequestModel,
+                    ): Call<Message>
 
     @POST("api/fetch-requests")
     fun fetchRequest(@Body filter:FilterModel): Call<FetchRequestModel>

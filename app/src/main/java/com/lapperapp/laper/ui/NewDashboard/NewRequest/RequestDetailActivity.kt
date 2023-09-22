@@ -21,6 +21,7 @@ import com.lapperapp.laper.ImageViewActivity
 import com.lapperapp.laper.R
 import com.lapperapp.laper.ui.NewDashboard.TagAdapter
 import com.lapperapp.laper.ui.NewDashboard.TagModel
+import com.lapperapp.laper.ui.NewHome.SelectCategorymodel
 import com.lapperapp.laper.utils.TimeAgo
 import de.hdodenhof.circleimageview.CircleImageView
 import java.text.SimpleDateFormat
@@ -49,7 +50,7 @@ class RequestDetailActivity : AppCompatActivity() {
 
     lateinit var tagRecyclerview: RecyclerView
     lateinit var tagAdapter: TagAdapter
-    lateinit var tagList: ArrayList<TagModel>
+    lateinit var tagList: ArrayList<SelectCategorymodel>
     private lateinit var cancelBtn: TextView
     private lateinit var psImage:ImageView
 
@@ -75,7 +76,7 @@ class RequestDetailActivity : AppCompatActivity() {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24)
         }
 
-        tagList = ArrayList()
+        tagList = ArrayList<SelectCategorymodel>()
         tagAdapter = TagAdapter(tagList)
         val llm = LinearLayoutManager(baseContext)
         llm.orientation = RecyclerView.HORIZONTAL
@@ -111,7 +112,7 @@ class RequestDetailActivity : AppCompatActivity() {
                 if (!req.isEmpty()) {
                         descView.setText(req[0].problemStatement)
                         for(tag in req[0].requiredTech){
-                            tagList.add(TagModel(tag,"",tag))
+                            tagList.add(SelectCategorymodel("","",""))
                         }
 
                     val requestTime:Long = req[0].requestTime.toLong() // Use safe call operator ?. to handle null

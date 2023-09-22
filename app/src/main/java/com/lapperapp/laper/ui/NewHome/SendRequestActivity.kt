@@ -41,7 +41,7 @@ class SendRequestActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var psVale: String
     private lateinit var imageUri: String
-    private lateinit var category: List<SelectCategorymodel>
+    private lateinit var category: ArrayList<SelectCategorymodel>
 
     private lateinit var askBtn: Button
     private lateinit var progress: ProgressBar
@@ -68,7 +68,7 @@ class SendRequestActivity : AppCompatActivity() {
 
         psVale = intent.getStringExtra("ps_value").toString()
         imageUri = intent.getStringExtra("image_uri").toString()
-        category = intent.getParcelableArrayListExtra<SelectCategorymodel>("tags")!!
+        category = intent.getParcelableArrayListExtra("tags")!!
 
         ps.text = psVale
         var tag = ""
@@ -186,12 +186,11 @@ class SendRequestActivity : AppCompatActivity() {
     }
 
     fun pushRequest(url: String) {
-        val arr = listOf<String>("Python")
+        val imageUrl = ArrayList<String>()
+        imageUrl.add(url)
 
-        val url = ArrayList<String>()
-        url.add("url1")
+        val request = RequestModel(psVale,category,imageUrl)
 
-        val request = RequestModel(psVale,arr)
         ResponseBodyApi.postRequest(baseContext,request, onResponse = { res->
             if (res!=null){
                 Toast.makeText(baseContext,"Request Sent Successfully",Toast.LENGTH_SHORT).show()
