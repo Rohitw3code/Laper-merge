@@ -62,10 +62,10 @@ class NewAvailableExpertAdapter(private val mList: List<NewAvailableExpertModel>
     }
 
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        var reqImage: CircleImageView = itemView.findViewById(R.id.new_request_sent_image)
-        var reqName: TextView = itemView.findViewById(R.id.new_request_sent_name)
-        var reqPs: TextView = itemView.findViewById(R.id.new_request_sent_ps)
-        var reqDate: TextView = itemView.findViewById(R.id.new_request_date)
+        var reqImage: CircleImageView = itemView.findViewById(R.id.new_request_expert_sent_image)
+        var reqName: TextView = itemView.findViewById(R.id.new_request_expert_sent_name)
+        var reqPs: TextView = itemView.findViewById(R.id.new_request_expert_sent_ps)
+        var reqDate: TextView = itemView.findViewById(R.id.new_request_expert_date)
     }
 
 }
