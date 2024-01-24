@@ -53,39 +53,10 @@ class ExpertInFragment(private var userId: String) : Fragment() {
 
     }
 
+    fun getUserData(){
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun getUserData() {
-        adminRef.document("profile").get().addOnSuccessListener { doc ->
-            val desc_ = doc.getString("expert_in_desc").toString().trim()
-            if (!desc_.isEmpty()) {
-                desc.text = desc_
-            } else {
-                desc.visibility = View.GONE
-            }
-
-        }
-
-        userRef.document(userId).get().addOnSuccessListener { documents ->
-            if (documents.contains("skills")) {
-                val skillsList = documents.get("skills") as List<String>
-                for (id in skillsList) {
-                    techRef.document(id.trim()).get().addOnSuccessListener { documents ->
-                        val tName = documents.getString("name").toString()
-                        val tImageUrl = documents.get("imageURL").toString()
-                        devSkill.add(DevSkill(tName, tImageUrl, id))
-                        devSkillAdapter.notifyDataSetChanged()
-                    }
-                }
-            }
-
-
-        }.addOnFailureListener { exception ->
-            run {
-                Toast.makeText(context, exception.message, Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
     }
+
+
 
 }
