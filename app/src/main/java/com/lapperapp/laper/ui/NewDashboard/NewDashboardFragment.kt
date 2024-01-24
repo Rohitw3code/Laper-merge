@@ -3,12 +3,14 @@ package com.lapperapp.laper.ui.NewDashboard
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,8 +38,6 @@ class NewDashboardFragment(
     private lateinit var aeRecyclerView: RecyclerView
     var db = Firebase.firestore
     var userRef = db.collection("users")
-    var expertsRef = db.collection("experts")
-    var reqRef = db.collection("requests")
     var auth = FirebaseAuth.getInstance()
     private lateinit var allChats: CardView
     private lateinit var reqSentModelModel: ArrayList<NewRequestSentModel>
@@ -48,6 +48,8 @@ class NewDashboardFragment(
     private lateinit var uReqIds: ArrayList<String>
     private lateinit var uAvaExpertIds: ArrayList<String>
     private lateinit var findDeveloper: CardView
+    private lateinit var sharedPreferences: SharedPreferences
+
 
     @SuppressLint("NotifyDataSetChanged", "MissingInflatedId")
     override fun onCreateView(
@@ -101,6 +103,12 @@ class NewDashboardFragment(
     fun clearNotification() {
         userRef.document(auth.uid.toString()).update("dashboardNotification", false)
         bottomBar.clearBadgeAtTab(tabToAddBadgeAt)
+    }
+
+    fun getEmail(){
+//        sharedPreferences = getSharedPreferences("credential", AppCompatActivity.MODE_PRIVATE)
+
+
     }
 
 

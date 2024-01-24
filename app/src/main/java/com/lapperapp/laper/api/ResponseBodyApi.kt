@@ -38,7 +38,7 @@ object ResponseBodyApi {
                 if (response.isSuccessful) {
                     onResponse("Sign Up Successful")
                 } else {
-                    onFailure(Throwable("Response unsuccessful"))
+                    onFailure(Throwable("Response unsuccessful "+response.message()))
                 }
             }
             override fun onFailure(call: Call<SignUpModel>, t: Throwable) {
@@ -84,6 +84,8 @@ object ResponseBodyApi {
             }
         })
     }
+
+    
 
     fun getExpertResponseBody(context: Context, model:FilterModel, onResponse: (ExpertBase?) -> Unit, onFailure: (Throwable) -> Unit) {
         val token = RetrofitClient.getCredential("token",context)
