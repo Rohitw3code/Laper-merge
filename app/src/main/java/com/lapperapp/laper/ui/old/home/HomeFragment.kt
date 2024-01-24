@@ -197,63 +197,6 @@ class HomeFragment : Fragment() {
             }
     }
 
-    fun fetchPopUp() {
-        val dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_CONTEXT_MENU)
-//        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.pop_up)
-        val dtitle = dialog.findViewById<TextView>(R.id.home_pop_up_text)
-        val dimage = dialog.findViewById<ImageView>(R.id.home_pop_up_image)
-        val dbuttonname = dialog.findViewById<TextView>(R.id.home_pop_button)
-
-        adminRef.document("popup")
-            .get().addOnSuccessListener { doc ->
-                if (doc.exists()) {
-                    val currentVersionName = doc.getString("currentVersionName") as String
-                    val showPopUp = doc.getBoolean("showPopUp") as Boolean
-                    val showUpdatePopUp = doc.getBoolean("showUpdatePopUp") as Boolean
-                    val buttonVisible1 = doc.getBoolean("buttonVisible1") as Boolean
-                    val title = doc.getString("title") as String
-                    val link = doc.getString("link") as String
-                    val imageUrl = doc.getString("imageUrl") as String
-                    val buttonName = doc.getString("buttonName") as String
-
-                    dbuttonname.text = buttonName
-                    dtitle.text = title
-                    Glide.with(this).load(imageUrl).into(dimage)
-
-                    dbuttonname.setOnClickListener {
-                        val urlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
-                        startActivity(urlIntent)
-                    }
-
-                    if (buttonVisible1) {
-                        dbuttonname.visibility = View.VISIBLE
-                    } else {
-                        dbuttonname.visibility = View.GONE
-                    }
-
-                    if (showPopUp) {
-                        dialog.show()
-                    }
-                    if (showUpdatePopUp) {
-                        if (currentVersionName.equals(BuildConfig.VERSION_NAME)) {
-                            dialog.show()
-                        }
-                    }
-                }
-            }
-    }
-
-    fun fetchNotice() {
-        adminRef.document("notice")
-            .get().addOnSuccessListener { doc ->
-                if (doc.exists()) {
-                    val ntc = doc.getString("notice") as String
-//                    notice.text = ntc
-                }
-            }
-    }
 
     fun expertMode() {
         userRef.document(firebaseAuth.uid as String)
@@ -268,11 +211,6 @@ class HomeFragment : Fragment() {
             }
     }
 
-
-    fun catActivity() {
-        val intent = Intent(context, AllCategoryActivity::class.java)
-        startActivity(intent)
-    }
 
     fun setToken() {
         FirebaseMessaging.getInstance().token.addOnSuccessListener { s ->
@@ -320,36 +258,6 @@ class HomeFragment : Fragment() {
 
     }
 
-    fun fetchImages() {
-        adminRef.document("slider")
-            .get().addOnSuccessListener { field ->
-                if (field.exists()) {
-                    val imgCount = field.getLong("count") as Long
-                    for (i in 1..imgCount) {
-                        val imgUrl = field.getString("image" + i)
-                        val desc = field.getString("desc" + i)
-                        imageList.add(SlideModel(imgUrl, desc))
-                    }
-//                imageSlider.setImageList(imageList)
-                }
-            }
-    }
-
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun getUsers() {
-        expertRef.orderBy("lastActive", Query.Direction.DESCENDING).limit(6).get()
-            .addOnSuccessListener { documents ->
-                for (doc in documents) {
-                    val imageUrl = doc.get("userImageUrl")
-                    val name = doc.get("username")
-                    devData.add(DevModel(name as String, imageUrl as String, doc.id, 0))
-                }
-                devAdapter.notifyDataSetChanged()
-            }.addOnFailureListener { exception ->
-            }
-
-    }
 
 
 }

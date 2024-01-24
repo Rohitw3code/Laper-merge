@@ -43,10 +43,10 @@ class NewRequestAdapter(private val mList: List<NewRequestSentModel>) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (mList[position].expertId.trim() == "") {
-            0
-        } else {
+        return if (mList[position].expertId.trim() == "all") {
             1
+        } else {
+            0
         }
     }
 

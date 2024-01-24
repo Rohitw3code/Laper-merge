@@ -105,11 +105,6 @@ class NewDashboardFragment(
         bottomBar.clearBadgeAtTab(tabToAddBadgeAt)
     }
 
-    fun getEmail(){
-//        sharedPreferences = getSharedPreferences("credential", AppCompatActivity.MODE_PRIVATE)
-
-
-    }
 
 
     @SuppressLint("NotifyDataSetChanged")

@@ -2,10 +2,12 @@ package com.lapperapp.laper.Categories
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.R
@@ -24,7 +26,7 @@ class ViewAllExpertsActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.view_all_expert_toolbar)
         devData = ArrayList()
         devAdapter = DeveloperAdapter(devData)
-        recyclerView.layoutManager = GridLayoutManager(baseContext, 3)
+        recyclerView.layoutManager = LinearLayoutManager(baseContext)
         recyclerView.adapter = devAdapter
 
         setSupportActionBar(toolbar)
@@ -53,7 +55,7 @@ class ViewAllExpertsActivity : AppCompatActivity() {
                 val expert = json?.expert
                 if (expert != null) {
                     for(ex in expert){
-                        devData.add(DevModel(ex.name,ex.userImageUrl,ex.email,0))
+                        devData.add(DevModel(ex.name,ex.userImageUrl,ex.email,0,ex.desc))
                         devAdapter.notifyDataSetChanged()
                     }
                 }

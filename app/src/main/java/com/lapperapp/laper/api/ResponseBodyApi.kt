@@ -75,7 +75,7 @@ object ResponseBodyApi {
                     val userFetch: ExpertBase? = response.body()
                     onResponse(userFetch)
                 } else {
-                    onFailure(Throwable("Response unsuccessful"))
+                    onFailure(Throwable("Response unsuccessful "+response.message()))
                 }
             }
 

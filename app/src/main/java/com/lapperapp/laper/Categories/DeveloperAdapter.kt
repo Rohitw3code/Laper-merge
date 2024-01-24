@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lapperapp.laper.R
@@ -28,6 +29,7 @@ class DeveloperAdapter(private val mList: List<DevModel>) :
 
         holder.txt.text = model.name
         Glide.with(context).load(model.userImageUrl).into(holder.img)
+        holder.desc.text = model.desc
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, ProfileActivity::class.java)
@@ -45,6 +47,7 @@ class DeveloperAdapter(private val mList: List<DevModel>) :
 
         val img: CircleImageView = itemView.findViewById(R.id.developer_image)
         val txt: TextView = itemView.findViewById(R.id.developer_name)
+        val desc: TextView = itemView.findViewById(R.id.developer_desc)
 
     }
 
