@@ -1,16 +1,13 @@
 package com.lapperapp.laper.ui.NewDashboard
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -106,26 +103,48 @@ class NewDashboardFragment(
     }
 
 
-
     @SuppressLint("NotifyDataSetChanged")
     fun fetchMyRequests() {
 
         val arr = ArrayList<String>()
         arr.add("python")
-        val filter = FilterModel("clientId","rohit@gmail.com","requestTime", lim = 6)
-        val ret = arrayOf(SelectCategorymodel("Python","","123456"))
+        val filter = FilterModel("clientId", "rohit@gmail.com", lim = 6)
+        val ret = arrayOf(SelectCategorymodel("Python", "", "123456"))
 
-        ResponseBodyApi.fetchRequest(filter, onResponse = { res->
+
+        ResponseBodyApi.fetchRequest(filter, onResponse = { res ->
             val req = res?.request
             if (req != null) {
-                for(model in req){
-                    reqSentModelModel.add(NewRequestSentModel(model.requestTime.toLong(),model.expertId,model.requestId,"laper expert","",model.problemStatement, ret))
-                    uReqIds.add("")
-                    reqSentAdapter.notifyDataSetChanged()
+                for (model in req) {
+
+                    ResponseBodyApi.getExpertResponseBody(
+                        requireContext(),
+                        FilterModel("expertId", model.expertId),
+                        onResponse = { exres ->
+                            val expertName = exres?.expert?.get(0)?.name.toString()
+                            val expertImageUrl = exres?.expert?.get(0)?.userImageUrl.toString()
+
+                            reqSentModelModel.add(
+                                NewRequestSentModel(
+                                    model.requestTime.toLong(),
+                                    model.expertId,
+                                    model.requestId,
+                                    expertName,
+                                    expertImageUrl,
+                                    model.problemStatement,
+                                    ret
+                                )
+                            )
+                            uReqIds.add("")
+                            reqSentAdapter.notifyDataSetChanged()
+                        },
+                        onFailure = { t ->
+                            Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                        })
                 }
             }
-        }, onFailure = {t->
-            Toast.makeText(context,t.message,Toast.LENGTH_SHORT).show()
+        }, onFailure = { t ->
+            Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
         })
 
 

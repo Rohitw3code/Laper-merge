@@ -90,23 +90,21 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun getExpertData() {
 
-        val model = FilterModel("email",userId,"name",1,1)
-        ResponseBodyApi.getExpertResponseBody(baseContext,model,
-            onResponse = { json ->
-                val expert = json?.expert
-                if (expert != null) {
-                    userName.text = expert[0].name
-                    Glide.with(baseContext).load(expert[0].userImageUrl).into(userImage)
-                    title.text = expert[0].desc
-                    val timeAgo = TimeAgo()
-                    val currentDate = timeAgo.getTimeAgo(Date(expert[0].lastActive.toLong()), baseContext)
-                    lastActive.text = currentDate
-                }
-            },
-            onFailure = { t ->
-                Toast.makeText(baseContext, t.message, Toast.LENGTH_SHORT).show()
+        val model = FilterModel("email", userId, 1, 1)
+        ResponseBodyApi.getExpertResponseBody(baseContext,model, onResponse = { json ->
+            val expert = json?.expert
+            if (expert != null) {
+                userName.text = expert[0].name
+                Glide.with(baseContext).load(expert[0].userImageUrl).into(userImage)
+                title.text = expert[0].desc
+                val timeAgo = TimeAgo()
+                val currentDate = timeAgo.getTimeAgo(Date(expert[0].lastActive.toLong()), baseContext)
+                lastActive.text = currentDate
             }
-        )
+        }
+        ) { t ->
+            Toast.makeText(baseContext, t.message, Toast.LENGTH_SHORT).show()
+        }
 
     }
 

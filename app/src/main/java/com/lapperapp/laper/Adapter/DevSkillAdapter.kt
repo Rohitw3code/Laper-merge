@@ -12,7 +12,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.lapperapp.laper.Model.DevSkill
 import com.lapperapp.laper.R
-import com.lapperapp.laper.ui.dashboard.RequestSubmitActivity
 import de.hdodenhof.circleimageview.CircleImageView
 
 class DevSkillAdapter(private val mList: List<DevSkill>, private val userId: String) :
@@ -35,11 +34,11 @@ class DevSkillAdapter(private val mList: List<DevSkill>, private val userId: Str
         holder.title.text = model.skill
         Glide.with(context).load(model.skillImageUrl).into(holder.image)
         holder.reqSend.setOnClickListener {
-            val intent = Intent(context, RequestSubmitActivity::class.java)
-            intent.putExtra("userId", userId)
-            intent.putExtra("techId", model.skillId)
-            intent.putExtra("title", model.skill)
-            context.startActivity(intent)
+//            val intent = Intent(context, RequestSubmitActivity::class.java)
+//            intent.putExtra("userId", userId)
+//            intent.putExtra("techId", model.skillId)
+//            intent.putExtra("title", model.skill)
+//            context.startActivity(intent)
         }
 
     }

@@ -1,26 +1,20 @@
 package com.lapperapp.laper.ui.NewDashboard.NewRequest
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.Data.FilterModel
-import com.lapperapp.laper.ImageViewActivity
 import com.lapperapp.laper.R
 import com.lapperapp.laper.ui.NewDashboard.TagAdapter
-import com.lapperapp.laper.ui.NewDashboard.TagModel
 import com.lapperapp.laper.ui.NewHome.SelectCategorymodel
 import com.lapperapp.laper.utils.TimeAgo
 import de.hdodenhof.circleimageview.CircleImageView
@@ -105,7 +99,7 @@ class RequestDetailActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     fun fetchRequestDetail(reqId: String) {
-        val filter = FilterModel("requestId",reqId,"requestTime")
+        val filter = FilterModel("requestId", reqId)
         ResponseBodyApi.fetchRequest(filter, onResponse = { res->
             val req = res?.request
             if (req != null) {

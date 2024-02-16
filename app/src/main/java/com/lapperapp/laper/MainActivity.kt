@@ -31,7 +31,6 @@ import com.laperapp.laper.ResponseBodyApi
 import com.lapperapp.laper.Auth.AuthActivity
 import com.lapperapp.laper.Notification.NotificationActivity
 import com.lapperapp.laper.databinding.ActivityMainBinding
-import com.lapperapp.laper.project.ProjectRequestActivity
 import com.lapperapp.laper.settings.SettingsActivity
 import com.lapperapp.laper.ui.NewDashboard.NewDashboardFragment
 import com.lapperapp.laper.ui.NewHome.NewHomeFragment
@@ -156,8 +155,6 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 R.id.nav_project -> {
-                    val intent = Intent(baseContext, ProjectRequestActivity::class.java)
-                    startActivity(intent)
                 }
                 R.id.nav_about -> {
                     val intent = Intent(baseContext, AboutActivity::class.java)

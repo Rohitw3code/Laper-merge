@@ -42,25 +42,23 @@ class PersonalFragment(private var userId: String) : Fragment() {
     }
 
     private fun getUserData() {
-        val model = FilterModel("email",userId,"name",1,1)
-        ResponseBodyApi.getExpertResponseBody(requireContext(),model,
-            onResponse = { json ->
-                val expert = json?.expert
-                if (expert != null) {
-                    userEmail.text = expert[0].email
-                    userPhone.text = expert[0].phoneNumber
-                    userAbout.text = expert[0].desc
+        val model = FilterModel("email", userId, 1, 1)
+        ResponseBodyApi.getExpertResponseBody(requireContext(),model, onResponse = { json ->
+            val expert = json?.expert
+            if (expert != null) {
+                userEmail.text = expert[0].email
+                userPhone.text = expert[0].phoneNumber
+                userAbout.text = expert[0].desc
 
-                    val timeAgo = TimeAgo()
-                    val currentDate = timeAgo.getTimeAgo(Date(expert[0].lastActive.toLong()), requireContext())
-                    lastActive.text = currentDate
-                }
-            },
-            onFailure = { t ->
-                Toast.makeText(requireContext(), t.message, Toast.LENGTH_SHORT).show()
+                val timeAgo = TimeAgo()
+                val currentDate = timeAgo.getTimeAgo(Date(expert[0].lastActive.toLong()), requireContext())
+                lastActive.text = currentDate
             }
-        )
-    }
 
+        }, onFailure = { t ->
+            Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+        })
+
+    }
 
 }

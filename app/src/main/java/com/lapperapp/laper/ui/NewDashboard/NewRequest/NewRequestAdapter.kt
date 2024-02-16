@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.ktx.firestore
@@ -100,6 +101,7 @@ class NewRequestAdapter(private val mList: List<NewRequestSentModel>) :
 
             reqDate.text = currentDate
             reqPs.text = model.ps
+
         }
     }
 }

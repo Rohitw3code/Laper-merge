@@ -17,8 +17,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".Auth.GoogleAuthActivity"
-            android:exported="true" >
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".Auth.RegActivity"
             android:exported="true">
@@ -95,13 +94,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".project.ProjectRequestActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".query.QuerySubActivity"
             android:exported="false">
             <meta-data
@@ -122,22 +114,10 @@
             android:name=".ImageViewActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.dashboard.Users.UsersActivity"
-            android:exported="false" />
-        <activity
             android:name=".PrivacyAndPolicyActivity"
             android:exported="false" />
         <activity
             android:name=".AboutActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.dashboard.TaskComplete.TaskCompletedActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.dashboard.TaskComplete.TaskCompletedReceivedActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.dashboard.RequestSent.RequestSentViewActivity"
             android:exported="false" />
         <activity
             android:name=".Notification.NotificationActivity"
@@ -146,22 +126,7 @@
             android:name=".ChatGPT.ChatGPTActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.dashboard.Declined.DeclinedActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.dashboard.RequestSent.RequestSentActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.chats.Chat.ChatActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.dashboard.RequestSubmitActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.dashboard.RequestReceived.ReceivedRequestsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.dashboard.RequestPopActivity"
             android:exported="false" />
         <activity
             android:name=".Categories.CategoryDeveloperActivity"
@@ -177,8 +142,7 @@
             android:exported="false" />
         <activity
             android:name=".Auth.AuthActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
 
         <service
             android:name=".service.MyFireBaseInstanceIDService"
